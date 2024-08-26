@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/LoginPage/Login";
+import QuizGame from "./Components/QuizGame/QuizGame"; 
 import DashboardLayout from "./Components/Dashboard/DashboardLayout";
 
 function App() {
@@ -9,8 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/dashboard" element={<DashboardLayout />}></Route>
-        {/* <Route path="/admin" element={<AdminDashboard />}></Route>
-        <Route path="/librarian" element={<LibrarianDashboard />}></Route> */}
+        <Route path="/quiz" element={<QuizGame />}></Route> 
       </Routes>
     </BrowserRouter>
   );
