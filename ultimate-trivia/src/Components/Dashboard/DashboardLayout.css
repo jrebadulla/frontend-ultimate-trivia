@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+.dashboard-container {
+  max-width: 100%;
+  height: 100vh;
+  background-color: #c9d6ff;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+}
+
+.header-container {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background-color: #d4e4ff;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  position: relative;
+}
+
+.header-container h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.header-container .links {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-container a {
+  font-style: normal;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  color: #2c3e50;
+  transition: color 0.3s ease, font-size 0.3s ease;
+}
+
+.header-container a:hover {
+  color: #512da8;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.header-container img {
+  width: 40px;
+  height: 40px;
+}
+
+.header-container button {
+  width: 90px;
+  height: 30px;
+  background: linear-gradient(45deg, #512da8, #3f1d7b);
+  color: #fff;
+  font-size: 12px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.header-container button:hover {
+  background: linear-gradient(45deg, #530fff, #3700b3);
+  color: #fff;
+  border: 1px solid transparent;
+  transform: scale(1.1) rotate(0deg);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.carousel-container {
+  max-width: 80%;
+  margin-top: 3rem;
+  margin-left: 7.5rem;
+}
+
+.btn-trivia {
+  display: flex;
+  margin-top: 10rem;
+  gap: 30px;
+  margin-left: 16rem;
+  margin-right: auto;
+}
+
