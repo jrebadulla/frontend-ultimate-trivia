@@ -11,7 +11,7 @@
   display: flex;
   width: 100%;
   height: 50px;
-  background-color: #d4e4ff;
+  background-color: #08152c;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 0 20px;
@@ -21,7 +21,7 @@
 .header-container h3 {
   font-size: 15px;
   font-weight: 700;
-  color: #2c3e50;
+  color: #c0cfdd;
   margin: 0;
   font-family: "Montserrat", sans-serif;
 }
@@ -38,12 +38,12 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 15px;
-  color: #2c3e50;
+  color: #ccd5df;
   transition: color 0.3s ease, font-size 0.3s ease;
 }
 
 .header-container a:hover {
-  color: #512da8;
+  color: #32c0ca;
   font-size: 16px;
   font-weight: 650;
 }
@@ -77,16 +77,20 @@
 }
 
 .carousel-container {
-  max-width: 80%;
+  max-width: 60%;
   margin-top: 3rem;
-  margin-left: 7.5rem;
+  margin-left: 15.5rem;
+  margin-top: 5rem;
 }
 
-.btn-trivia {
-  display: flex;
-  margin-top: 10rem;
-  gap: 30px;
-  margin-left: 16rem;
-  margin-right: auto;
+.carousel-container img {
+  width: 500px;
+  height: 500px;
 }
+
+.trivia{
+
+ 
+}
+
 

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { UserOutlined } from "@ant-design/icons";
-import { Input, Button, Form } from "antd";
+import { Input, Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import Logo from "../Image/trivia-logo.png";
 import axios from "axios";
 
 const Login = () => {
@@ -31,7 +32,7 @@ const Login = () => {
     setIsActive(true);
   };
 
-  const handleSignInClick = () => {
+  const handleClick = () => {
     setIsActive(false);
   };
 
@@ -43,39 +44,42 @@ const Login = () => {
         "http://127.0.0.1:8000/api/insertUsers",
         formData
       );
+      message.success("Sign up successful!");
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = (e) => {
+    e.preventDefault();
     axios
       .post("http://127.0.0.1:8000/api/userLogin", { email, password })
       .then((response) => {
         const { user_id } = response.data;
-
+        message.success("Login successful!");
         localStorage.setItem("user_id", user_id);
-
         navigate("/dashboard");
       })
       .catch((error) => {
-        console.error("Login error:", error);
+        message.error(
+          "Login failed. Please check your credentials and try again."
+        );
       });
   };
 
   return (
     <div className="main-container">
       <div className={`container ${isActive ? "active" : ""}`} id="container">
-        <div class="form-container sign-up">
+        <div className="form-container sign-up">
           <form>
             <h1>Create Acount</h1>
             <br></br>
-            <div class="social-icons">
-              <a href="#" class="icon"></a>
+            <div className="social-icons">
+              <a href="#" className="icon"></a>
             </div>
             <input
-              type="text"
+              type="firstname"
               placeholder="Name"
               name="firstname"
               value={formData.firstname}
@@ -83,7 +87,7 @@ const Login = () => {
               required
             ></input>
             <input
-              type="text"
+              type="lastname"
               placeholder="Last Name"
               name="lastname"
               value={formData.lastname}
@@ -91,7 +95,7 @@ const Login = () => {
               required
             ></input>
             <input
-              type="text"
+              type="address"
               placeholder="Address"
               name="address"
               value={formData.address}
@@ -99,7 +103,7 @@ const Login = () => {
               required
             ></input>
             <input
-              type="text"
+              type="email"
               placeholder="Email"
               name="email"
               value={formData.email}
@@ -107,7 +111,7 @@ const Login = () => {
               required
             ></input>
             <input
-              type="text"
+              type="password"
               placeholder="Pasoword"
               name="password"
               value={formData.password}
@@ -117,46 +121,50 @@ const Login = () => {
             <button onClick={handleSignUp}>Sign Up</button>
           </form>
         </div>
-        <div class="form-container sign-in">
+        <div className="form-container sign-in">
           <form>
             <h1>Sign In</h1>
             <br></br>
-            <div class="social-icons">
-              <a href="#" class="icon"></a>
+            <div className="social-icons">
+              <a href="#" className="icon"></a>
             </div>
 
             <input
-              type="text"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              required
             ></input>
             <input
-              type="text"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Pasoword"
+              required
             ></input>
             <a href="#">Forget Your Password?</a>
-            <button onClick={handleSignIn}>Sign In</button>
+            <button onClick={handleSignIn}>Login</button>
           </form>
         </div>
-        <div class="toggle-container">
-          <div class="toggle">
-            <div class="toggle-panel toggle-left">
+        <div className="toggle-container">
+          <div className="toggle">
+            <div className="toggle-panel toggle-left">
+              <img src={Logo} />
               <h1>Welcome Back!</h1>
               <p>Enter your personal details to use all the site features </p>
-              <button class="hidden" id="login" onClick={handleSignInClick}>
+              <button className="hidden" id="login" onClick={handleClick}>
                 Sign In
               </button>
             </div>
-            <div class="toggle-panel toggle-right">
+            <div className="toggle-panel toggle-right">
+              <img src={Logo} />
               <h1>Welcome, To Ultimate Trivia!</h1>
               <p>
                 Register with your personal details to use all the site features{" "}
               </p>
               <button
-                class="hidden"
+                className="hidden"
                 id="register"
                 onClick={handleRegisterClick}
               >

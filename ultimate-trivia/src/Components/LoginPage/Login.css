@@ -195,3 +195,9 @@
 .container.active .toggle-right {
   transform: translateX(200%);
 }
+
+.toggle-panel  img{
+  width: 90px;
+  height: 90px;
+}
+
