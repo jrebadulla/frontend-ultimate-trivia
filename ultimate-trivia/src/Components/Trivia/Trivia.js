@@ -16,7 +16,7 @@ const Trivia = () => {
   const listRef = useRef(null);
   const runningTimeRef = useRef(null);
   const timeRunning = 3000;
-  const timeAutoNext = 7000;
+  const timeAutoNext = 50000;
 
   useEffect(() => {
     const nextBtn = carouselRef.current.querySelector(".next");

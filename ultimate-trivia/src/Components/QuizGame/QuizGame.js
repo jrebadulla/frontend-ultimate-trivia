@@ -1,12 +1,23 @@
 import React, { useState } from "react";
 import "./QuizGame.css";
-import appleRed from "../Image/applered.png"; 
+import bug from "../Image/bug-computerized.jpg"; 
+import ladyBug from "../Image/lady-bug.jpg"; 
+import stressed from "../Image/stressed-programmer.jpg"; 
+import computerError from "../Image/computer-error.jpg"; 
+
 import dota2 from "../Image/dota.jpg"; 
+import htmlImage from "../Image/htmlImage.png";
+import cssImage from "../Image/css.png";
+import javasctiptImage from "../Image/javascript.png";
+import phpImage from "../Image/php.png";
+import javaImage from "../Image/java.png";
+import csharpImage from "../Image/csharp.png";
+import fourPicsOneWord from "../Image/four-pics-one-word.png";
 
 const imageSets = [
     {
-      images: [appleRed, appleRed, appleRed, appleRed],
-      answer: "apple",
+      images: [bug, ladyBug, stressed, computerError],
+      answer: "bug",
     },
     {
       images: [dota2, dota2, dota2, dota2], 
@@ -98,21 +109,68 @@ const resetQuiz = () => {
 
   return (
     <div className="quiz-game-container">
-      <h1>Quiz Game</h1>
-      <div className="quiz-categories">
-        <div className="quiz-card" onClick={handleGameClick}>
-          CSS<br /><span>3/30</span>
+      <h1 className="quiz-game-heading">Quiz Game</h1>
+      <div className="quiz-game-box-container">
+        
+      <div className="quiz-game-box">
+        <img src = {cssImage} alt=""/>
+            <h3>CSS</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
         </div>
-        <div className="quiz-card">JavaScript<br /><span>13/30</span></div>
-        <div className="quiz-card">PHP<br /><span>0/30</span></div>
-        <div className="quiz-card">HTML<br /><span>0/30</span></div>
-        <div className="quiz-card">Java<br /><span>0/30</span></div>
-        <div className="quiz-card">C#<br /><span>0/30</span></div>
-        <div className="quiz-card">
-            4 pics 1 word
-            <br />
-            <span>{score}/{imageSets.length}</span> {/* Display the score */}
-            <br />
+
+        <div className="quiz-game-box">
+        <img src = {javasctiptImage} alt=""/>
+            <h3>Javascript</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
+        </div>
+        
+        <div className="quiz-game-box">
+        <img src = {phpImage} alt=""/>
+            <h3>PHP</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
+        </div>
+
+        <div className="quiz-game-box">
+        <img src = {htmlImage} alt=""/>
+            <h3>HTML 5</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
+        </div>
+        
+        <div className="quiz-game-box">
+        <img src = {javaImage} alt=""/>
+            <h3>Java</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
+        </div>
+        <div className="quiz-game-box">
+        <img src = {csharpImage} alt=""/>
+            <h3>C#</h3>
+            <p>Score: 0/2</p>
+            <button className="start-button">
+                    Start Quiz
+            </button>
+        </div>
+
+        <div className="quiz-game-box">
+        <img src = {fourPicsOneWord} alt=""/>
+            <h3>4 pics 1 word</h3>
+       
+            <p> Score: {score}/{imageSets.length}</p> 
+            
             {!quizCompleted && (
                 <button onClick={handleGameClick} className="start-button">
                     Start Quiz

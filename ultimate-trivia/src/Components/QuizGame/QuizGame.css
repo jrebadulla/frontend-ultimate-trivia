@@ -1,79 +1,6 @@
-.quiz-game-container {
-    max-width: 100%;
-    height: 100vh;
-    background-color: #eae8ff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .quiz-game-container h1 {
-    font-size: 36px;
-    color: #2c3e50;
-    font-family: "Montserrat", sans-serif;
-    margin-bottom: 20px;
-  }
-  
-  .quiz-progress {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .progress-bar {
-    width: 60%;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 0 auto;
-  }
-  
-  .progress {
-    height: 20px;
-    background-color: #512da8;
-    color: white;
-    text-align: center;
-    line-height: 20px;
-    font-weight: bold;
-  }
-  
-  .quiz-categories {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 80%;
-    height: 50%;
-  }
-  
-  .quiz-card {
-    background-color: #5a3ea6;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    font-family: "Montserrat", sans-serif;
-    font-size: 18px;
-  }
-  
-  .quiz-card span {
-    display: block;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #e0e0e0;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
-  .game-container {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .images-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
+
   .game-image {
     width: 100px;
     height: 100px;
@@ -82,11 +9,47 @@
   }
   
   .answer-input {
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    width: 200px;
-  }
+    background-color: #f0f0f0;
+    border: 1px solid #ccc; 
+    padding: 10px;          
+    font-size: 16px;        
+    color: #333;            
+    border-radius: 4px;     
+    width: 100%;  
+    margin-right: 10px;     
+    box-sizing: border-box; 
+}
+
+.start-button{
+  background-color: #3700b3;
+  color: #fff;
+  font-weight: 600px;
+  border-radius: 15px;
+  width: 80px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.reset-button{
+  background-color: #0062b3;
+  color: #fff;
+  font-weight: 600px;
+  border-radius: 15px;
+  width: 80px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.start-button:hover{
+  background-color: #622be3;
+  color: #fff;
+  font-weight: 900px;
+}
+
+.answer-input:focus {
+    outline: none;            
+    border-color: #888;      
+}
   
   .submit-button {
     padding: 10px 20px;
@@ -231,7 +194,127 @@
     text-align: center;
     z-index: 1010; /* Ensure it's on top of other modal content */
   }
+
+
+
   
+  /*box layout grid */
+
+  * {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+.quiz-game-container {
+  background-color: #1b335c;;
+  padding: 15px 2%; /* Adjusted to minimize padding */
+  padding-bottom: 100px;
+  max-width: 100%; /* Ensure full width usage */
+  width: 100%; /* Ensure the container takes up the full width */
+  min-height: 100vh; /* Make sure the container takes up the full height of the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+.quiz-game-container .quiz-game-box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.quiz-game-container .quiz-game-box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 15px;
+    width: 100%; /* Make sure it takes the full width of the container */
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  background: #fff;
+  text-align: center;
+  padding: 30px 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box img {
+    height: 80px;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box h3 {
+    color: #444;
+    font-size: 22px;
+    padding: 10px 0;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box p {
+    color: #777;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box .btn {
+    margin-top: 10px;
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 5px;
+    padding: 8px 25px;
+    cursor: pointer;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box .btn:hover {
+    letter-spacing: 1px;
+    background-color: #444;
+}
+
+.quiz-game-container .quiz-game-box-container .quiz-game-box:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
+    transform: scale(1.03);
+}
+
+.quiz-game-heading {
+  font-size: 48px; /* Adjust size as needed */
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 100px; /* Space between the header and the boxes */
+}
+
+.quiz-game-box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  .quiz-game-container {
+      padding: 20px;
+      max-width: 100%; /* Ensure full width on smaller screens */
+  }
+
+  .quiz-game-container .quiz-game-heading {
+      font-size: 36px;
+  }
+
+  .quiz-game-container .quiz-game-box-container {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust for smaller screens */
+  }
+}
+
   
 
   
