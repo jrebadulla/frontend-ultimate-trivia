@@ -10,7 +10,7 @@
 .header-container {
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 70px;
   background-color: #08152c;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -19,28 +19,61 @@
 }
 
 .header-container h3 {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   color: #c0cfdd;
   margin: 0;
+  margin-left: 20px;
   font-family: "Montserrat", sans-serif;
+}
+
+.header-container h3 {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .header-container .links {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   margin-left: auto;
-  margin-right: 25px;
-  
+  margin-right: auto;
 }
 
 .header-container a {
   font-style: normal;
   text-decoration: none;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   color: #ccd5df;
-  transition: color 0.3s ease, font-size 0.3s ease;
+  transition:
+    color 0.3s ease,
+    font-size 0.3s ease;
+}
+
+.header-container a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #32c0ca;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.header-container::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.header-container a:hover::after {
+  transform: scaleX(1);
 }
 
 .header-container a:hover {
@@ -50,23 +83,27 @@
 }
 
 .header-container img {
-  width: 40px;
+  width: auto;
   height: 40px;
+  transition: transform 0.3s ease;
 }
 
-.header-container button {
-  width: 90px;
-  height: 30px;
-  background: linear-gradient(45deg, #512da8, #3f1d7b);
-  color: #fff;
-  font-size: 12px;
-  border: 1px solid transparent;
-  border-radius: 50px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-  transition: all 0.3s ease;
+.header-container img:hover {
+  transform: scale(1.1);
+}
+
+p {
+  color: white;
+}
+
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  animation: slideIn 0.5s ease-out;
 }
 
 .header-container button:hover {
@@ -75,6 +112,7 @@
   border: 1px solid transparent;
   transform: scale(1.1) rotate(0deg);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-container {
@@ -89,6 +127,149 @@
   height: 500px;
 }
 
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
 
+  .header-container .links {
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+  }
 
+  .header-container button {
+    width: 100%;
+  }
+}
 
+.username {
+  margin: 0;
+  font-size: 16px;
+  color: #e0d6d6;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: text-glow-multi 5s ease-in-out infinite alternate;
+}
+
+.progress-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  width: 60%;
+  height: 60%;
+  margin-top: 10px;
+  animation: spin 5s linear infinite;
+}
+
+.progress-bg,
+.progress {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.progress-bg {
+  stroke: #333;
+  stroke-width: 7;
+}
+
+.progress {
+  stroke: #70f7f0;
+  stroke-width: 7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease-in-out;
+  animation: dash-animation 1.5s ease-in-out infinite;
+}
+
+.progress-text {
+  font-size: 18px;
+  font-weight: bold;
+  text-anchor: middle;
+  fill: #70f7f0;
+  dominant-baseline: middle;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-family: 'Orbitron', sans-serif;
+  animation: text-pulse 1s infinite alternate;
+}
+
+.glow {
+  filter: drop-shadow(0 0 10px #70f7f0);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash-animation {
+  0% {
+    stroke-dasharray: 0, 188.4;
+  }
+  50% {
+    stroke-dasharray: 94.2, 188.4;
+  }
+  100% {
+    stroke-dasharray: 188.4, 188.4;
+  }
+}
+
+@keyframes text-glow-multi {
+  0% {
+    text-shadow: 0 0 5px #ff4f4f, 0 0 10px #ff4f4f, 0 0 20px #ff4f4f;
+  }
+  25% {
+    text-shadow: 0 0 5px #f8e71c, 0 0 10px #f8e71c, 0 0 20px #f8e71c;
+  }
+  50% {
+    text-shadow: 0 0 5px #7ed321, 0 0 10px #7ed321, 0 0 20px #7ed321;
+  }
+  75% {
+    text-shadow: 0 0 5px #50e3c2, 0 0 10px #50e3c2, 0 0 20px #50e3c2;
+  }
+  100% {
+    text-shadow: 0 0 5px #9013fe, 0 0 10px #9013fe, 0 0 20px #9013fe;
+  }
+}
+
+@keyframes text-pulse {
+  0% {
+    fill: #70f7f0;
+  }
+  100% {
+    fill: #ffffff;
+  }
+}
