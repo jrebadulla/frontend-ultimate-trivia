@@ -8,14 +8,15 @@ import axios from "axios";
 
 const Login = () => {
   const [isActive, setIsActive] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
-    address: "",
     email: "",
     password: "",
+    username: "",
+    level_id: "",
   });
 
   const navigate = useNavigate();
@@ -54,11 +55,18 @@ const Login = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/api/userLogin", { email, password })
+      .post("http://127.0.0.1:8000/api/userLogin", { username, password })
       .then((response) => {
-        const { user_id } = response.data;
-        message.success("Login successful!");
-        localStorage.setItem("user_id", user_id);
+        const { firstname, lastname } = response.data.user; // Adjust according to actual response structure
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            firstname,
+            lastname,
+          })
+        );
+
         navigate("/dashboard");
       })
       .catch((error) => {
@@ -95,10 +103,10 @@ const Login = () => {
               required
             ></input>
             <input
-              type="address"
-              placeholder="Address"
-              name="address"
-              value={formData.address}
+              type="username"
+              placeholder="Username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               required
             ></input>
@@ -118,6 +126,18 @@ const Login = () => {
               onChange={handleChange}
               required
             ></input>
+            <select
+              name="level_id"
+              value={formData.level_id}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Your Year Level</option>
+              <option value="1">First Year</option>
+              <option value="2">Second Year</option>
+              <option value="3">Third Year</option>
+              <option value="4">Fourth Year</option>
+            </select>
             <button onClick={handleSignUp}>Sign Up</button>
           </form>
         </div>
@@ -130,10 +150,10 @@ const Login = () => {
             </div>
 
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
               required
             ></input>
             <input
