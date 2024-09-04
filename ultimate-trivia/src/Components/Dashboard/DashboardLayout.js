@@ -49,50 +49,48 @@ const DashboardLayout = () => {
           </a>
         </div>
         <div className="profile-container">
-  {user ? (
-    <>
-      <p className="username">{user.firstname} {user.lastname}</p>
-      <div className="progress-container">
-        <svg
-          className="progress-bar"
-          width="70"
-          height="70"
-          viewBox="0 0 70 70"
-        >
-          <circle
-            cx="35"
-            cy="35"
-            r="30"
-            className="progress-bg"
-            strokeWidth="5"
-            fill="none"
-          />
-          <circle
-            cx="35"
-            cy="35"
-            r="30"
-            className="progress"
-            strokeWidth="5"
-            fill="none"
-            style={{
-              strokeDasharray: 188.4,  // Circumference of the circle
-              strokeDashoffset: 188.4 - (188.4 * 0.5) // Example for 50% progress
-            }}
-          />
-          <text
-            x="35"
-            y="35"
-            className="progress-text"
-          >
-            50%
-          </text>
-        </svg>
-      </div>
-    </>
-  ) : (
-    <p>Loading user data...</p>
-  )}
-</div>
+          {user ? (
+            <>
+              <p className="username">
+                {user.firstname} {user.lastname}
+              </p>
+              <div className="progress-container">
+                <svg
+                  className="progress-bar"
+                  width="70"
+                  height="70"
+                  viewBox="0 0 70 70"
+                >
+                  <circle
+                    cx="35"
+                    cy="35"
+                    r="30"
+                    className="progress-bg"
+                    strokeWidth="5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="35"
+                    cy="35"
+                    r="30"
+                    className="progress"
+                    strokeWidth="5"
+                    fill="none"
+                    style={{
+                      strokeDasharray: 188.4, // Circumference of the circle
+                      strokeDashoffset: 188.4 - 188.4 * 0.5, // Example for 50% progress
+                    }}
+                  />
+                  <text x="35" y="35" className="progress-text">
+                    50%
+                  </text>
+                </svg>
+              </div>
+            </>
+          ) : (
+            <p>Loading user data...</p>
+          )}
+        </div>
       </div>
       <div className="content">
         {activeComponent === "trivia" && <Trivia />}
