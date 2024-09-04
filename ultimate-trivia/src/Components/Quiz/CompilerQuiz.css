@@ -1,0 +1,98 @@
+CompilerQuiz.css
+.compiler-quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .compiler-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .question-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #ffffff;
+  }
+  
+  .compiler-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; 
+    height: 50vh; 
+    overflow: hidden;
+  }
+  
+  .compiler-editor,
+  .compiler-output {
+    flex: 1;
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .compiler-output {
+    background-color: #101e3a;
+    color: #e4dcdc;
+  }
+  
+  .submit-button, .restart-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button {
+    background-color: #28a745;
+  }
+  
+  .submit-button:hover {
+    background-color: #218838;
+  }
+  
+  .restart-button {
+    background-color: #ff6b6b;
+  }
+  
+  .restart-button:hover {
+    background-color: #ff4a4a;
+  }
+  
+  .game-over-container {
+    text-align: center;
+    padding: 20px;
+    background: #f8d7da;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-over-header {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #ff6b6b;
+  }
+  
+  .game-over-score {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
