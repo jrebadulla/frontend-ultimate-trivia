@@ -1,0 +1,97 @@
+/* Container for the entire question section */
+.FourPic-question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 140px); /* Adjust height considering the modal header and padding */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    padding: 20px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #1c2b47, #3b4d71); /* Background similar to Bubble Pop Quiz */
+}
+
+/* Main game area */
+.FourPic-container {
+    width: 100%;
+    max-width: 600px; /* Ensure it doesn’t exceed modal width */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    text-align: center;
+    position: relative; /* For positioning score */
+}
+
+.FourPic-question-text {
+    font-size: 2rem;
+    color: #f5f5f5;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Images styling */
+.FourPic-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px; /* Ensure space between images and other content */
+}
+
+.FourPic-images img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Input field styling */
+.FourPic-answer-input {
+    width: 80%;
+    max-width: 300px; /* Adjust as needed */
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    margin-top: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Submit button styling */
+.FourPic-submit-button {
+    padding: 12px 24px;
+    font-size: 18px;
+    margin: 10px;
+    background: #ffdd57;
+    border: none;
+    color: #1c2b47;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.FourPic-submit-button:hover {
+    background: #f5a623;
+}
+
+/* Status message */
+.FourPic-status-message {
+    font-size: 1.2rem;
+    color: #f5f5f5;
+    margin-top: 20px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Additional styles for input classes */
+.correct {
+    border-color: #4caf50; /* Green border for correct answers */
+}
+
+.incorrect {
+    border-color: #f44336; /* Red border for incorrect answers */
+}
