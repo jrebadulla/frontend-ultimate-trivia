@@ -11,13 +11,17 @@ const FourPicsOneWord = () => {
   const [inputClass, setInputClass] = useState("");
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [quizFinished, setQuizFinished] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const levelId = user.level_id;
+  const gameId = 5;
+  const baseURL = "http://127.0.0.1:8000";
 
   useEffect(() => {
-    const gameId = 5;
-    const baseURL = "http://127.0.0.1:8000/api/quiz-questions";
-
     axios
-      .get(baseURL, { params: { game_id: gameId } })
+      .get(`${baseURL}/api/quiz-questions`, { params: { game_id: gameId } })
       .then((response) => {
         const questionsData = response.data;
         setQuestions(questionsData);
@@ -35,30 +39,48 @@ const FourPicsOneWord = () => {
   };
 
   const handleSubmitAnswer = () => {
-    if (correctAnswer && userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+    if (
+      correctAnswer &&
+      userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()
+    ) {
       setGameStatus("Correct!");
       setInputClass("correct");
-      setScore(prevScore => prevScore + 1);
-      setShowScore(true);
-      setUserAnswer("");
 
-      // Move to next question after a delay
+      const newScore = score + 1;
+      setScore(newScore);
+      setShowScore(true);
+
       setTimeout(() => {
         if (currentQuestionIndex + 1 < questions.length) {
           const nextQuestion = questions[currentQuestionIndex + 1];
-          setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+          setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
           setCorrectAnswer(nextQuestion?.correct_answer || "");
           setShowScore(false);
         } else {
           setGameStatus("Game Over!");
           setInputClass("");
+          setQuizFinished(true);
+          saveUserScore(newScore); 
         }
       }, 1000);
-
     } else {
       setGameStatus("Wrong! Try Again.");
       setInputClass("incorrect");
       setShowScore(true);
+    }
+  };
+
+  const saveUserScore = async (updatedScore) => {
+    try {
+      await axios.post(`${baseURL}/api/saveUserScore`, {
+        user_id: userId,
+        game_id: gameId,
+        score: updatedScore, 
+        level: levelId,
+      });
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
     }
   };
 
@@ -67,7 +89,6 @@ const FourPicsOneWord = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-  const baseURL = "http://127.0.0.1:8000";
 
   return (
     <div className="FourPic-question-container">
@@ -106,7 +127,8 @@ const FourPicsOneWord = () => {
         </button>
         {showScore && (
           <div className="FourPic-status-message">
-            {gameStatus} {gameStatus === "Correct!" && <span>Score: {score}</span>}
+            {gameStatus}{" "}
+            {gameStatus === "Correct!" && <span>Score: {score}</span>}
           </div>
         )}
       </div>

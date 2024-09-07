@@ -57,13 +57,15 @@ const Login = () => {
     axios
       .post("http://127.0.0.1:8000/api/userLogin", { username, password })
       .then((response) => {
-        const { firstname, lastname } = response.data.user; // Adjust according to actual response structure
+        const { user_id, firstname, lastname, level_id } = response.data.user;
 
         localStorage.setItem(
           "user",
           JSON.stringify({
             firstname,
             lastname,
+            user_id,
+            level_id
           })
         );
 

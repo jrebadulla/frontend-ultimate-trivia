@@ -11,11 +11,16 @@ const CompilerQuiz = () => {
   const [gameOver, setGameOver] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const levelId = user.level_id;
+  const gameId = 6;
+  const baseURL = "http://127.0.0.1:8000";
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/quiz-questions", {
-        params: { game_id: 6 },
+      .get(`${baseURL}/api/quiz-questions`, {
+        params: { game_id: gameId },
       })
       .then((response) => {
         const fetchedQuestions = response.data;
@@ -25,7 +30,7 @@ const CompilerQuiz = () => {
       .catch((error) => {
         console.error("Error fetching the questions:", error);
       });
-  }, []);
+  }, [gameId]);
 
   useEffect(() => {
     if (questions.length > 0) {
@@ -33,13 +38,21 @@ const CompilerQuiz = () => {
     }
   }, [currentQuestionIndex, questions]);
 
+  useEffect(() => {
+    if (gameOver) {
+      saveUserScore(score); 
+    }
+  }, [gameOver, score]);
+
   const handleCompile = () => {
     if (question) {
-      const simulatedOutput = userCode.includes(question.correct_answer) ? "Correct Output" : "Incorrect Output";
+      const simulatedOutput = userCode.includes(question.correct_answer)
+        ? "Correct Output"
+        : "Incorrect Output";
       setOutput(simulatedOutput);
 
       if (userCode.includes(question.correct_answer)) {
-        setScore((prevScore) => prevScore + 1);
+        setScore((prevScore) => prevScore + 1); 
       }
     }
   };
@@ -50,14 +63,28 @@ const CompilerQuiz = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {
-      setGameOver(true);
+      setGameOver(true); 
+    }
+  };
+
+  const saveUserScore = async (finalScore) => {
+    try {
+      await axios.post(`${baseURL}/api/saveUserScore`, {
+        user_id: userId,
+        game_id: gameId,
+        score: finalScore, 
+        level: levelId,
+      });
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
     }
   };
 
   const restartGame = () => {
     axios
-      .get("http://127.0.0.1:8000/api/quiz-questions", {
-        params: { game_id: 6 },
+      .get(`${baseURL}/api/quiz-questions`, {
+        params: { game_id: gameId },
       })
       .then((response) => {
         const fetchedQuestions = response.data;
@@ -89,13 +116,15 @@ const CompilerQuiz = () => {
           <div className="compiler-layout">
             <div className="compiler-editor">
               <Editor
-                height="100%" // Ensure it fills its container
-                language="java" // Change according to the language
+                height="100%" 
+                language="java" 
                 value={userCode}
                 onChange={(value) => setUserCode(value || "")}
                 theme="vs-dark"
               />
-              <button onClick={handleSubmit} className="submit-button">Submit</button>
+              <button onClick={handleSubmit} className="submit-button">
+                Submit
+              </button>
             </div>
             <div className="compiler-output">
               <h3>Output:</h3>
@@ -107,7 +136,9 @@ const CompilerQuiz = () => {
         <div className="game-over-container">
           <div className="game-over-header">Game Over!</div>
           <div className="game-over-score">Final Score: {score}</div>
-          <button onClick={restartGame} className="restart-button">Play Again</button>
+          <button onClick={restartGame} className="restart-button">
+            Play Again
+          </button>
         </div>
       )}
     </div>
