@@ -10,11 +10,30 @@ const BubblePopQuiz = React.memo(() => {
   const [gameOver, setGameOver] = useState(false);
   const [popBubbleId, setPopBubbleId] = useState(null);
   const [questions, setQuestions] = useState([]);
-
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const level_id = user.level_id;
+  const gameId = 3;
   const currentQuestion = questions[currentQuestionIndex];
 
+  const saveUserScore = async () => {
+    try {
+      console.log("User ID from localStorage:", userId);
+
+      await axios.post("http://127.0.0.1:8000/api/saveUserScore", {
+        user_id: userId,
+        game_id: gameId,
+        score: score,
+        level: level_id
+      });
+
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
+    }
+  };
+
   useEffect(() => {
-    const gameId = 3;
     axios
       .get("http://127.0.0.1:8000/api/quiz-questions", {
         params: {
@@ -70,13 +89,17 @@ const BubblePopQuiz = React.memo(() => {
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (gameOver) return;
+    if (gameOver) {
+      saveUserScore();
+      return;
+    }
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
           setGameOver(true);
+          saveUserScore();
         }
         return prevTime - 1;
       });
@@ -102,6 +125,7 @@ const BubblePopQuiz = React.memo(() => {
           prevIndex < questions.length - 1 ? prevIndex + 1 : prevIndex;
         if (newIndex === questions.length - 1) {
           setGameOver(true);
+          saveUserScore();
         }
         return newIndex;
       });

@@ -7,15 +7,18 @@ const MultipleChoice = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const levelId = user.level_id;
+  const gameId = 4;
+  const baseURL = "http://127.0.0.1:8000";
 
   useEffect(() => {
-    const gameId = 4;
-
     axios
-      .get("http://127.0.0.1:8000/api/quiz-questions", {
-        params: {
-          game_id: gameId,
-        },
+      .get(`${baseURL}/api/quiz-questions`, {
+        params: { game_id: gameId },
       })
       .then((response) => {
         const transformedQuestions = response.data.map((question) => ({
@@ -39,7 +42,28 @@ const MultipleChoice = () => {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+
+      const correctAnswersCount = userAnswers.filter(
+        (answer, index) => answer === questions[index].correct_answer
+      ).length;
+      setTotalCorrectAnswers(correctAnswersCount);
       setQuizFinished(true);
+
+      saveUserScore(correctAnswersCount);
+    }
+  };
+
+  const saveUserScore = async (score) => {
+    try {
+      await axios.post(`${baseURL}/api/saveUserScore`, {
+        user_id: userId,
+        game_id: gameId,
+        score: score,
+        level: levelId,
+      });
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
     }
   };
 
@@ -47,6 +71,7 @@ const MultipleChoice = () => {
     setCurrentQuestionIndex(0);
     setUserAnswers([]);
     setQuizFinished(false);
+    setTotalCorrectAnswers(0);
   };
 
   if (questions.length === 0) {
@@ -54,9 +79,6 @@ const MultipleChoice = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-  const totalCorrectAnswers = userAnswers.filter(
-    (answer, index) => answer === questions[index].correct_answer
-  ).length;
 
   return (
     <div className="quiz-modal active">

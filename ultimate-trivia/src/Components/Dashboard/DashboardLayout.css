@@ -166,73 +166,46 @@ p {
 
 .progress-container {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
 }
 
 .progress-bar {
   position: absolute;
-  top: 5px;
-  left: 10px;
-  width: 60%;
-  height: 60%;
-  margin-top: 10px;
-  animation: spin 5s linear infinite;
-}
-
-.progress-bg,
-.progress {
-  transform: rotate(-90deg);
-  transform-origin: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .progress-bg {
-  stroke: #333;
-  stroke-width: 7;
+  stroke: #4a4a4a;
+  stroke-width: 10;
+  fill: none;
 }
 
 .progress {
-  stroke: #70f7f0;
-  stroke-width: 7;
+  stroke: #ff6f61;
+  stroke-width: 10;
   stroke-linecap: round;
+  fill: none;
   transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease-in-out;
-  animation: dash-animation 1.5s ease-in-out infinite;
+  animation: dash-animation 1.5s ease-in-out infinite, glow-animation 1s infinite alternate;
 }
 
 .progress-text {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   text-anchor: middle;
-  fill: #70f7f0;
+  fill: #ff6f61;
   dominant-baseline: middle;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
   animation: text-pulse 1s infinite alternate;
-}
-
-.glow {
-  filter: drop-shadow(0 0 10px #70f7f0);
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 @keyframes dash-animation {
@@ -247,27 +220,20 @@ p {
   }
 }
 
-@keyframes text-glow-multi {
+@keyframes glow-animation {
   0% {
-    text-shadow: 0 0 5px #ff4f4f, 0 0 10px #ff4f4f, 0 0 20px #ff4f4f;
-  }
-  25% {
-    text-shadow: 0 0 5px #f8e71c, 0 0 10px #f8e71c, 0 0 20px #f8e71c;
-  }
-  50% {
-    text-shadow: 0 0 5px #7ed321, 0 0 10px #7ed321, 0 0 20px #7ed321;
-  }
-  75% {
-    text-shadow: 0 0 5px #50e3c2, 0 0 10px #50e3c2, 0 0 20px #50e3c2;
+    stroke: #ff6f61;
+    filter: drop-shadow(0 0 10px #ff6f61);
   }
   100% {
-    text-shadow: 0 0 5px #9013fe, 0 0 10px #9013fe, 0 0 20px #9013fe;
+    stroke: #ffab91;
+    filter: drop-shadow(0 0 20px #ffab91);
   }
 }
 
 @keyframes text-pulse {
   0% {
-    fill: #70f7f0;
+    fill: #ff6f61;
   }
   100% {
     fill: #ffffff;

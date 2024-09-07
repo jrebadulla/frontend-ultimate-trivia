@@ -9,16 +9,31 @@ import QuizDashboard from "../Quiz/QuizDashboard";
 const DashboardLayout = () => {
   const [activeComponent, setActiveComponent] = useState("trivia");
   const [user, setUser] = useState(null);
+  const [totalScore, setTotalScore] = useState(0);
+  const [maxPossibleScore, setMaxPossibleScore] = useState(0);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
       setUser(storedUser);
-      console.log("User from localStorage:", storedUser);
-    } else {
-      console.log("No user found in localStorage");
+      fetchUserProgress(storedUser.user_id);
     }
   }, []);
+
+  const fetchUserProgress = async (userId) => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/users-score",
+        {
+          params: { user_id: userId },
+        }
+      );
+      setTotalScore(response.data.total_score);
+      setMaxPossibleScore(response.data.max_possible_score);
+    } catch (error) {
+      console.error("Error fetching user progress:", error);
+    }
+  };
 
   const handleTriviaClick = () => {
     setActiveComponent("trivia");
@@ -31,6 +46,9 @@ const DashboardLayout = () => {
   const handleQuizClick = () => {
     setActiveComponent("quiz");
   };
+
+  const progressPercentage =
+    maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
   return (
     <div className="dashboard-container">
@@ -77,12 +95,13 @@ const DashboardLayout = () => {
                     strokeWidth="5"
                     fill="none"
                     style={{
-                      strokeDasharray: 188.4, // Circumference of the circle
-                      strokeDashoffset: 188.4 - 188.4 * 0.5, // Example for 50% progress
+                      strokeDasharray: 188.4, 
+                      strokeDashoffset:
+                        188.4 - 188.4 * (progressPercentage / 100),
                     }}
                   />
                   <text x="35" y="35" className="progress-text">
-                    50%
+                    {Math.round(progressPercentage)}%
                   </text>
                 </svg>
               </div>

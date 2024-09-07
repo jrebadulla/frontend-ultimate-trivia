@@ -3,15 +3,18 @@ import axios from "axios";
 import "./FillInTheBlanks.css";
 
 const FillInTheBlank = () => {
+  const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [quizFinished, setQuizFinished] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const level_id = user.level_id;
+  const gameId = 4;
 
   useEffect(() => {
-    const gameId = 4;
-
     axios
       .get("http://127.0.0.1:8000/api/quiz-questions", {
         params: {
@@ -27,12 +30,39 @@ const FillInTheBlank = () => {
   }, []);
 
   const handleSubmit = () => {
-    setUserAnswers([...userAnswers, currentAnswer.trim()]);
+    const newAnswer = currentAnswer.trim();
+    const updatedAnswers = [...userAnswers, newAnswer];
+
+    const totalCorrectAnswers = updatedAnswers.filter(
+      (answer, index) =>
+        answer.toLowerCase() === questions[index].correct_answer.toLowerCase()
+    ).length;
+
+    setUserAnswers(updatedAnswers);
     setCurrentAnswer("");
+
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      setScore(totalCorrectAnswers);
       setQuizFinished(true);
+
+      saveUserScore(totalCorrectAnswers);
+    }
+  };
+
+  const saveUserScore = async (calculatedScore) => {
+    try {
+      await axios.post("http://127.0.0.1:8000/api/saveUserScore", {
+        user_id: userId,
+        game_id: gameId,
+        score: calculatedScore,
+        level: level_id,
+      });
+
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
     }
   };
 
@@ -49,7 +79,8 @@ const FillInTheBlank = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalCorrectAnswers = userAnswers.filter(
-    (answer, index) => answer.toLowerCase() === questions[index].correct_answer.toLowerCase()
+    (answer, index) =>
+      answer.toLowerCase() === questions[index].correct_answer.toLowerCase()
   ).length;
 
   return (
@@ -65,7 +96,8 @@ const FillInTheBlank = () => {
                 Your answer:{" "}
                 <span
                   className={
-                    userAnswers[index].toLowerCase() === q.correct_answer.toLowerCase()
+                    userAnswers[index].toLowerCase() ===
+                    q.correct_answer.toLowerCase()
                       ? "correct"
                       : "incorrect"
                   }
