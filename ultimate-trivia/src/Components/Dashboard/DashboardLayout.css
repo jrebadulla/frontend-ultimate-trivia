@@ -193,8 +193,9 @@ p {
   stroke-width: 10;
   stroke-linecap: round;
   fill: none;
-  transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease-in-out;
-  animation: dash-animation 1.5s ease-in-out infinite, glow-animation 1s infinite alternate;
+  transition:
+    stroke-dashoffset 0.5s ease,
+    stroke 0.3s ease-in-out;
 }
 
 .progress-text {
@@ -203,7 +204,7 @@ p {
   text-anchor: middle;
   fill: #ff6f61;
   dominant-baseline: middle;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   text-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
   animation: text-pulse 1s infinite alternate;
 }

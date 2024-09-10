@@ -70,29 +70,28 @@ CompilerQuiz.css
   }
   
   .restart-button {
-    background-color: #ff6b6b;
+    background: #ffdd57;
+    border: none;
+    color: #1c2b47;
+    font-size: 1.2rem;
+    font-family: "Press Start 2P", cursive;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin: 5px;
   }
   
   .restart-button:hover {
-    background-color: #ff4a4a;
+    background: #f5a623;
+  }
+
+  .restart-button:focus {
+   outline: none;
   }
   
-  .game-over-container {
-    text-align: center;
-    padding: 20px;
-    background: #f8d7da;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+ 
   
-  .game-over-header {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #ff6b6b;
-  }
+
   
-  .game-over-score {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
   
