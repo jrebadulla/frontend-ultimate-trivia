@@ -34,11 +34,17 @@ const FourPicsOneWord = () => {
       });
   }, []);
 
-  const handleAnswerChange = (e) => {
-    setUserAnswer(e.target.value);
+  const handleLetterChange = (index, letter) => {
+    const newAnswer = userAnswer.split("");
+    newAnswer[index] = letter;
+    setUserAnswer(newAnswer.join(""));
   };
 
   const handleSubmitAnswer = () => {
+    if (quizFinished) {
+      return;
+    }
+
     if (
       correctAnswer &&
       userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()
@@ -55,12 +61,13 @@ const FourPicsOneWord = () => {
           const nextQuestion = questions[currentQuestionIndex + 1];
           setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
           setCorrectAnswer(nextQuestion?.correct_answer || "");
+          setUserAnswer(""); 
           setShowScore(false);
         } else {
           setGameStatus("Game Over!");
           setInputClass("");
           setQuizFinished(true);
-          saveUserScore(newScore); 
+          saveUserScore(newScore);
         }
       }, 1000);
     } else {
@@ -75,7 +82,7 @@ const FourPicsOneWord = () => {
       await axios.post(`${baseURL}/api/saveUserScore`, {
         user_id: userId,
         game_id: gameId,
-        score: updatedScore, 
+        score: updatedScore,
         level: levelId,
       });
       console.log("Score saved successfully");
@@ -89,6 +96,7 @@ const FourPicsOneWord = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const answerLength = correctAnswer.length;
 
   return (
     <div className="FourPic-question-container">
@@ -111,24 +119,28 @@ const FourPicsOneWord = () => {
             <img src={`${baseURL}${currentQuestion.image4}`} alt="Image 4" />
           )}
         </div>
-        <input
-          type="text"
-          value={userAnswer}
-          onChange={handleAnswerChange}
-          placeholder="Type your answer here"
-          className={`FourPic-answer-input ${inputClass}`}
-        />
+        <div className="FourPic-answer-boxes">
+          {Array.from({ length: answerLength }).map((_, index) => (
+            <input
+              key={index}
+              type="text"
+              maxLength="1"
+              value={userAnswer[index] || ""}
+              onChange={(e) => handleLetterChange(index, e.target.value)}
+              className={`FourPic-answer-box ${inputClass}`}
+            />
+          ))}
+        </div>
         <button
           className="FourPic-submit-button"
           onClick={handleSubmitAnswer}
-          disabled={!userAnswer.trim()}
+          disabled={userAnswer.length < answerLength}
         >
           Submit
         </button>
         {showScore && (
           <div className="FourPic-status-message">
             {gameStatus}{" "}
-            {gameStatus === "Correct!" && <span>Score: {score}</span>}
           </div>
         )}
       </div>

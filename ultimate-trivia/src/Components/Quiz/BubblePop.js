@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./BubblePop.css";
+import { v4 as uuidv4 } from "uuid"; // For unique IDs
 
 const BubblePopQuiz = React.memo(() => {
   const [bubbles, setBubbles] = useState([]);
@@ -10,6 +11,9 @@ const BubblePopQuiz = React.memo(() => {
   const [gameOver, setGameOver] = useState(false);
   const [popBubbleId, setPopBubbleId] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const level_id = user.level_id;
@@ -18,31 +22,24 @@ const BubblePopQuiz = React.memo(() => {
 
   const saveUserScore = async () => {
     try {
-      console.log("User ID from localStorage:", userId);
-
       await axios.post("http://127.0.0.1:8000/api/saveUserScore", {
         user_id: userId,
         game_id: gameId,
         score: score,
         level: level_id
       });
-
-      console.log("Score saved successfully");
     } catch (error) {
       console.error("Error saving score:", error);
     }
   };
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/quiz-questions", {
-        params: {
-          game_id: gameId,
-        },
-      })
-      .then((response) => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/quiz-questions", {
+          params: { game_id: gameId },
+        });
         const fetchedQuestions = response.data;
-
         const transformedQuestions = fetchedQuestions.map((question) => ({
           ...question,
           incorrect_answers: [
@@ -52,12 +49,15 @@ const BubblePopQuiz = React.memo(() => {
             question.option_d,
           ].filter((option) => option !== question.correct_answer),
         }));
-
         setQuestions(transformedQuestions);
-      })
-      .catch((error) => {
-        console.error("Error fetching the questions:", error);
-      });
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching the questions.");
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
   }, []);
 
   useEffect(() => {
@@ -70,23 +70,45 @@ const BubblePopQuiz = React.memo(() => {
           currentQuestion.correct_answer,
         ];
         allAnswers.sort(() => Math.random() - 0.5);
-        const newBubbles = allAnswers.map((answer) => ({
-          id: Date.now() + Math.random(),
-          left: Math.random() * 90 + "%",
-          top: Math.random() * 90 + "%",
-          answer: answer,
-        }));
+    
+        const newBubbles = [];
+        allAnswers.forEach((answer) => {
+          let overlapping;
+          let position;
+          do {
+            overlapping = false;
+            position = {
+              left: `${Math.random() * 50}%`, 
+              top: `${Math.random() * 50}%`,
+            };
+    
+         
+            newBubbles.forEach((bubble) => {
+              if (Math.abs(parseInt(bubble.left) - parseInt(position.left)) < 5 &&
+                  Math.abs(parseInt(bubble.top) - parseInt(position.top)) < 5) {
+                overlapping = true;
+              }
+            });
+          } while (overlapping);
+    
+          newBubbles.push({
+            id: uuidv4(),
+            left: position.left,
+            top: position.top,
+            answer: answer,
+          });
+        });
+    
         setBubbles(newBubbles);
       }
     };
 
-    createBubbles();
-    const interval = setInterval(createBubbles, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [currentQuestion]);
+    if (!gameOver) {
+      createBubbles();
+      const interval = setInterval(createBubbles, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [currentQuestion, gameOver]);
 
   useEffect(() => {
     if (gameOver) {
@@ -141,8 +163,12 @@ const BubblePopQuiz = React.memo(() => {
     setGameOver(false);
   };
 
-  if (questions.length === 0) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
   }
 
   return (
