@@ -5,6 +5,7 @@ import MultipleChoice from "./MultipleChoice";
 import FillInTheBlank from "./FillInTheBlanks";
 import FourPicsOneWord from "./FourPicsOneWord";
 import CodeQuiz from "./CompilerQuiz";
+import TypingGame from "./TypingGame";
 
 const QuizDashboard = () => {
   const [activeQuiz, setActiveQuiz] = useState(null);
@@ -35,6 +36,7 @@ const QuizDashboard = () => {
         <div onClick={() => handleQuizClick("Four Pics One Word")}>
           Four Pics One Word
         </div>
+        <div onClick={() => handleQuizClick("Typing Game")}>Typing Game</div>
       </div>
 
       {activeQuiz && (
@@ -51,9 +53,11 @@ const QuizDashboard = () => {
             ) : activeQuiz === "Fill in the Blanks" ? (
               <FillInTheBlank />
             ) : activeQuiz === "Four Pics One Word" ? (
-                <FourPicsOneWord />
-              ) : activeQuiz === "Quiz with Compiler" ? (
-                <CodeQuiz />
+              <FourPicsOneWord />
+            ) : activeQuiz === "Quiz with Compiler" ? (
+              <CodeQuiz />
+            ) : activeQuiz === "Typing Game" ? (
+              <TypingGame />
             ) : (
               <p>This is where you play the {activeQuiz} quiz!</p>
             )}
