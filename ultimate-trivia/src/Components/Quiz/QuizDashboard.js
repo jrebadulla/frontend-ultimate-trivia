@@ -36,9 +36,7 @@ const QuizDashboard = () => {
         <div onClick={() => handleQuizClick("Four Pics One Word")}>
           Four Pics One Word
         </div>
-        <div onClick={() => handleQuizClick("Code Combat")}>
-        Code Combat
-        </div>
+        <div onClick={() => handleQuizClick("Code Combat")}>Code Combat</div>
       </div>
 
       {activeQuiz && (
@@ -55,11 +53,11 @@ const QuizDashboard = () => {
             ) : activeQuiz === "Fill in the Blanks" ? (
               <FillInTheBlank />
             ) : activeQuiz === "Four Pics One Word" ? (
-                <FourPicsOneWord />
-              ) : activeQuiz === "Quiz with Compiler" ? (
-                <CompilerQuiz />
-              ) : activeQuiz === "Code Combat" ? (
-                <EscapeRoom />
+              <FourPicsOneWord />
+            ) : activeQuiz === "Quiz with Compiler" ? (
+              <CompilerQuiz />
+            ) : activeQuiz === "Code Combat" ? (
+              <EscapeRoom />
             ) : (
               <p>This is where you play the {activeQuiz} quiz!</p>
             )}
