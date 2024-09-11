@@ -38,17 +38,19 @@ const MultipleChoice = () => {
   }, []);
 
   const handleAnswer = (answer) => {
-    setUserAnswers([...userAnswers, answer]);
+    const newAnswers = [...userAnswers, answer];
+    setUserAnswers(newAnswers);
+  
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-
-      const correctAnswersCount = userAnswers.filter(
+      const correctAnswersCount = newAnswers.filter(
         (answer, index) => answer === questions[index].correct_answer
       ).length;
+      
       setTotalCorrectAnswers(correctAnswersCount);
       setQuizFinished(true);
-
+  
       saveUserScore(correctAnswersCount);
     }
   };
