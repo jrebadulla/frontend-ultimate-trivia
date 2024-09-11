@@ -26,7 +26,7 @@ const BubblePopQuiz = React.memo(() => {
         user_id: userId,
         game_id: gameId,
         score: score,
-        level: level_id
+        level: level_id,
       });
     } catch (error) {
       console.error("Error saving score:", error);
@@ -36,9 +36,12 @@ const BubblePopQuiz = React.memo(() => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/quiz-questions", {
-          params: { game_id: gameId },
-        });
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/quiz-questions",
+          {
+            params: { game_id: gameId },
+          }
+        );
         const fetchedQuestions = response.data;
         const transformedQuestions = fetchedQuestions.map((question) => ({
           ...question,
@@ -70,35 +73,28 @@ const BubblePopQuiz = React.memo(() => {
           currentQuestion.correct_answer,
         ];
         allAnswers.sort(() => Math.random() - 0.5);
-    
+
         const newBubbles = [];
-        allAnswers.forEach((answer) => {
-          let overlapping;
-          let position;
-          do {
-            overlapping = false;
-            position = {
-              left: `${Math.random() * 50}%`, 
-              top: `${Math.random() * 50}%`,
-            };
-    
-         
-            newBubbles.forEach((bubble) => {
-              if (Math.abs(parseInt(bubble.left) - parseInt(position.left)) < 5 &&
-                  Math.abs(parseInt(bubble.top) - parseInt(position.top)) < 5) {
-                overlapping = true;
-              }
-            });
-          } while (overlapping);
-    
+        const numColumns = 3; 
+        const numRows = 2; 
+
+        for (let i = 0; i < allAnswers.length; i++) {
+          const column = i % numColumns;
+          const row = Math.floor(i / numColumns);
+
+          const position = {
+            left: `${column * (100 / numColumns)}%`, 
+            top: `${row * (100 / numRows)}%`, 
+          };
+
           newBubbles.push({
             id: uuidv4(),
             left: position.left,
             top: position.top,
-            answer: answer,
+            answer: allAnswers[i],
           });
-        });
-    
+        }
+
         setBubbles(newBubbles);
       }
     };
