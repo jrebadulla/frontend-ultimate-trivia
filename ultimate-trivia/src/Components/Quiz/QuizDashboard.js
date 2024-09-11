@@ -4,7 +4,8 @@ import BubblePopQuiz from "./BubblePop";
 import MultipleChoice from "./MultipleChoice";
 import FillInTheBlank from "./FillInTheBlanks";
 import FourPicsOneWord from "./FourPicsOneWord";
-import CodeQuiz from "./CompilerQuiz";
+import CompilerQuiz from "./CompilerQuiz";
+import EscapeRoom from "./CodeCombat";
 
 const QuizDashboard = () => {
   const [activeQuiz, setActiveQuiz] = useState(null);
@@ -35,6 +36,9 @@ const QuizDashboard = () => {
         <div onClick={() => handleQuizClick("Four Pics One Word")}>
           Four Pics One Word
         </div>
+        <div onClick={() => handleQuizClick("Code Combat")}>
+        Code Combat
+        </div>
       </div>
 
       {activeQuiz && (
@@ -53,7 +57,9 @@ const QuizDashboard = () => {
             ) : activeQuiz === "Four Pics One Word" ? (
                 <FourPicsOneWord />
               ) : activeQuiz === "Quiz with Compiler" ? (
-                <CodeQuiz />
+                <CompilerQuiz />
+              ) : activeQuiz === "Code Combat" ? (
+                <EscapeRoom />
             ) : (
               <p>This is where you play the {activeQuiz} quiz!</p>
             )}
