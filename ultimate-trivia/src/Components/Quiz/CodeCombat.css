@@ -1,0 +1,113 @@
+.escape-room-container {
+  margin: 0 auto;
+  padding: 30px;
+  border: 3px solid #fff;
+  border-radius: 15px;
+  background: #333;
+  color: #fff;
+  max-width: 600px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #333, #000);
+}
+
+.escape-room-title {
+  font-size: 2.5rem;
+  color: #ffeb3b;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+}
+
+.escape-room-puzzle {
+  font-size: 1.5rem;
+  margin: 20px 0;
+  color: #fff;
+  background: linear-gradient(90deg, #ff5722, #ffeb3b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.escape-room-input {
+  padding: 12px;
+  margin-top: 15px;
+  border: 2px solid #ffeb3b;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  color: #333;
+  background: #fff;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.escape-room-input:focus {
+  border-color: #ff5722;
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 87, 34, 0.5);
+}
+
+.escape-room-button {
+  padding: 12px 25px;
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.escape-room-button:hover {
+  background-color: #e64a19;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.escape-room-button:active {
+  transform: scale(0.95);
+}
+
+.escape-room-feedback {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #ffeb3b;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.escape-room-puzzle-container {
+  animation: pulse 1.5s infinite;
+}
+
+.escape-room-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.9)
+  );
+  opacity: 0.4;
+  z-index: -1;
+}
