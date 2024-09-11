@@ -12,7 +12,7 @@ const FillInTheBlank = () => {
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const level_id = user.level_id;
-  const gameId = 4;
+  const gameId = 7;
 
   useEffect(() => {
     axios
