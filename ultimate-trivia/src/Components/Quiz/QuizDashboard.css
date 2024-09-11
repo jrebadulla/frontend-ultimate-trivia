@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
-
 .quiz-container {
   width: 100%;
   height: 88vh;
@@ -107,8 +106,7 @@
 
 
 .modal-header {
-  font-size: 2.5rem;
-  font-family: "Press Start 2P", cursive;
+  font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;
   color: #ffdd57;
