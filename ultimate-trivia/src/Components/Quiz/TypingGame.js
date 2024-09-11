@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./TypingGame.css"; // Import the CSS file
+import axios from "axios";
+import "./TypingGame.css"; 
 
 const TypingGame = () => {
   const [snippet, setSnippet] = useState("");
@@ -7,18 +8,29 @@ const TypingGame = () => {
   const [startTime, setStartTime] = useState(null);
   const [timeTaken, setTimeTaken] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false); 
+  const [userScore, setUserScore] = useState(0); 
 
-  const snippets = [
-    "console.log('Hello, world!');",
-    "function add(a, b) { return a + b; }",
-    "let x = 10; const y = 20;",
-    "<div className='container'></div>",
-    "if (isTrue) { doSomething(); }",
-  ];
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const userId = user.user_id;
+  const gameId = 4; 
 
   useEffect(() => {
-    const randomSnippet = snippets[Math.floor(Math.random() * snippets.length)];
-    setSnippet(randomSnippet);
+    axios
+      .get("http://127.0.0.1:8000/api/quiz-questions", {
+        params: {
+          game_id: gameId,
+        },
+      })
+      .then((response) => {
+        setQuestions(response.data);
+        const randomQuestion = response.data[Math.floor(Math.random() * response.data.length)];
+        setSnippet(randomQuestion.question_text); 
+      })
+      .catch((error) => {
+        console.error("Error fetching snippets:", error);
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -31,6 +43,10 @@ const TypingGame = () => {
     if (value === snippet) {
       const endTime = Date.now();
       setTimeTaken((endTime - startTime) / 1000);
+      setGameFinished(true); 
+      const calculatedScore = calculateScore(); 
+      setUserScore(calculatedScore); 
+      saveUserScore(calculatedScore); 
     }
 
     const matchingChars = value
@@ -42,7 +58,7 @@ const TypingGame = () => {
   };
 
   const handlePaste = (e) => {
-    e.preventDefault(); // Prevent pasting
+    e.preventDefault(); 
     alert("Pasting is not allowed! Please type the code.");
   };
 
@@ -51,9 +67,32 @@ const TypingGame = () => {
     setTimeTaken(null);
     setAccuracy(null);
     setStartTime(null);
-    const randomSnippet = snippets[Math.floor(Math.random() * snippets.length)];
-    setSnippet(randomSnippet);
+    setGameFinished(false);
+    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+    setSnippet(randomQuestion.question_text);
   };
+
+  const calculateScore = () => {
+    return accuracy ? Math.round(accuracy) : 0;
+  };
+
+  const saveUserScore = async (calculatedScore) => {
+    try {
+      await axios.post("http://127.0.0.1:8000/api/saveUserScore", {
+        user_id: userId,
+        game_id: gameId,
+        score: calculatedScore,
+      });
+
+      console.log("Score saved successfully");
+    } catch (error) {
+      console.error("Error saving score:", error);
+    }
+  };
+
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="typing-game">
@@ -69,10 +108,11 @@ const TypingGame = () => {
         className="input-field"
       />
 
-      {timeTaken && (
+      {gameFinished && (
         <div className="results">
-          <p>Time Taken: {timeTaken.toFixed(2)} seconds</p>
-          <p>Accuracy: {accuracy.toFixed(2)}%</p>
+          <p>Time Taken: {timeTaken ? timeTaken.toFixed(2) : "N/A"} seconds</p>
+          <p>Accuracy: {accuracy ? accuracy.toFixed(2) : "N/A"}%</p>
+          <p>Score: {userScore}</p>
         </div>
       )}
 
