@@ -61,7 +61,7 @@ const FourPicsOneWord = () => {
           const nextQuestion = questions[currentQuestionIndex + 1];
           setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
           setCorrectAnswer(nextQuestion?.correct_answer || "");
-          setUserAnswer(""); 
+          setUserAnswer("");
           setShowScore(false);
         } else {
           setGameStatus("Game Over!");
@@ -99,9 +99,13 @@ const FourPicsOneWord = () => {
   const answerLength = correctAnswer.length;
 
   return (
+    <div className="quiz-modal active">
     <div className="FourPic-question-container">
       <div className="FourPic-container">
-        <div className="FourPic-score">Score: {score}</div>
+        <div>
+          <p className="modal-header">Level {currentQuestionIndex + 1}</p>
+        </div>
+        <p className="fourPic-score">Score: {score}</p>
         <h2 className="FourPic-question-text">
           {currentQuestion.question_text}
         </h2>
@@ -139,11 +143,10 @@ const FourPicsOneWord = () => {
           Submit
         </button>
         {showScore && (
-          <div className="FourPic-status-message">
-            {gameStatus}{" "}
-          </div>
+          <div className="FourPic-status-message">{gameStatus} </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

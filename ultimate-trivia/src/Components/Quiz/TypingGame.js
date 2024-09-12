@@ -95,6 +95,7 @@ const TypingGame = () => {
   }
 
   return (
+    <div className="quiz-modal active">
     <div className="typing-game">
       <h2>Type the Code Snippet Below</h2>
       <pre>{snippet}</pre>
@@ -117,6 +118,7 @@ const TypingGame = () => {
       )}
 
       <button onClick={resetGame}>Reset</button>
+    </div>
     </div>
   );
 };

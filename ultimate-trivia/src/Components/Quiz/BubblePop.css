@@ -42,16 +42,16 @@
 .bubble-quiz-area {
   position: relative;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 10px);
   background: linear-gradient(135deg, #1c2b47, #3b4d71);
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  display: flex; /* Added */
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-  flex-wrap: wrap; /* Allow wrapping of items */
-  gap: 10px; /* Space between items */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  gap: 10px; 
 }
 
 .bubble {

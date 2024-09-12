@@ -76,7 +76,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%; 
+  width: 90%;
   height: 90vh;
   background: linear-gradient(135deg, #1c2b47, #3b4d71);
   color: #ffffff;
@@ -103,7 +103,6 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
-
 
 .modal-header {
   font-size: 2rem;
@@ -146,8 +145,3 @@
     transform: translateY(-200px) rotate(360deg);
   }
 }
-
-
-
-
-

@@ -40,17 +40,17 @@ const MultipleChoice = () => {
   const handleAnswer = (answer) => {
     const newAnswers = [...userAnswers, answer];
     setUserAnswers(newAnswers);
-  
+
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       const correctAnswersCount = newAnswers.filter(
         (answer, index) => answer === questions[index].correct_answer
       ).length;
-      
+
       setTotalCorrectAnswers(correctAnswersCount);
       setQuizFinished(true);
-  
+
       saveUserScore(correctAnswersCount);
     }
   };
@@ -119,7 +119,10 @@ const MultipleChoice = () => {
         </div>
       ) : (
         <div className="question-container">
-          <h2 className="modal-header">{currentQuestion.question_text}</h2>
+          <div>
+            <p className="modal-header">Level {currentQuestionIndex + 1}</p>
+          </div>
+          <h2 className="multiple-question">{currentQuestion.question_text}</h2>
           <div className="options">
             {currentQuestion.options &&
               currentQuestion.options.map((option, index) => (

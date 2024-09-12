@@ -172,7 +172,9 @@ const BubblePopQuiz = React.memo(() => {
       {!gameOver ? (
         <div className="bubble-quiz-container">
           <div className="bubble-quiz-header">
-            <h2>Bubble Pop Quiz</h2>
+            <div>
+            <p className="modal-header">Level {currentQuestionIndex + 1}</p>
+          </div>
             <div className="score-container">
               <div className="score">{score}</div>
               <div className="score-label">Score</div>

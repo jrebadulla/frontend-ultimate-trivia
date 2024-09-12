@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import './CodeCombat.css'; // Import the updated CSS file
+import './CodeCombat.css'; 
 
 const EscapeRoom = () => {
   const [questions, setQuestions] = useState([]);
@@ -10,16 +10,16 @@ const EscapeRoom = () => {
   const [quizFinished, setQuizFinished] = useState(false);
   const [timeUp, setTimeUp] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [remainingTime, setRemainingTime] = useState(30); // New state for remaining time
+  const [remainingTime, setRemainingTime] = useState(30); 
   const user = JSON.parse(localStorage.getItem('user')) || {};
   const userId = user.user_id;
   const level_id = user.level_id;
-  const gameId = 4; // Game ID for this quiz
+  const gameId = 4; 
   const timerRef = useRef(null);
-  const countdownRef = useRef(null); // Ref for countdown timer
+  const countdownRef = useRef(null); 
 
   useEffect(() => {
-    // Fetch questions from the backend
+ 
     axios.get('http://127.0.0.1:8000/api/quiz-questions', {
       params: { game_id: gameId },
     })
@@ -32,12 +32,11 @@ const EscapeRoom = () => {
   }, []);
 
   useEffect(() => {
-    // Start the timer when a new question is displayed
+  
     if (questions.length > 0) {
       startTimer();
     }
 
-    // Clear timers when the component unmounts or question changes
     return () => {
       clearTimeout(timerRef.current);
       clearInterval(countdownRef.current);
@@ -46,7 +45,7 @@ const EscapeRoom = () => {
 
   const startTimer = () => {
     setTimeUp(false);
-    setRemainingTime(30); // Reset remaining time to 30 seconds
+    setRemainingTime(60); 
     clearTimeout(timerRef.current);
     clearInterval(countdownRef.current);
     
@@ -57,25 +56,25 @@ const EscapeRoom = () => {
           setTimeUp(true);
           setFeedback('Time is up! You were eaten by a bug monster while coding!');
           setTimeout(() => {
-            setQuizFinished(true); // End the quiz when time is up
+            setQuizFinished(true); 
             saveUserScore(userAnswers.filter((answer, index) =>
               answer.toLowerCase() === questions[index]?.correct_answer.toLowerCase()
             ).length);
-          }, 2000); // Brief delay before ending the quiz
+          }, 2000); 
           return 0;
         }
         return prevTime - 1;
       });
-    }, 1000); // Update every second
+    }, 1000);
 
     timerRef.current = setTimeout(() => {
       clearInterval(countdownRef.current);
-    }, 30000); // 30 seconds in milliseconds
+    }, 60000); 
   };
 
   const handleSubmit = () => {
-    clearTimeout(timerRef.current); // Clear the timer when the user submits an answer
-    clearInterval(countdownRef.current); // Clear the countdown interval
+    clearTimeout(timerRef.current); 
+    clearInterval(countdownRef.current); 
     const newAnswer = currentAnswer.trim();
     const updatedAnswers = [...userAnswers, newAnswer];
     const correctAnswer = questions[currentQuestionIndex]?.correct_answer || '';
@@ -94,9 +93,9 @@ const EscapeRoom = () => {
           setCurrentAnswer('');
           setFeedback('');
           setUserAnswers(updatedAnswers);
-          startTimer(); // Restart the timer for the next question
+          startTimer(); 
         }
-      }, 1000); // Short delay before moving to the next question
+      }, 1000); 
     } else {
       setFeedback('Incorrect, try again.');
     }
@@ -132,6 +131,7 @@ const EscapeRoom = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
+    <div className="quiz-modal active">
     <div className="escape-room-container">
       {quizFinished ? (
         <div className="escape-room-feedback">
@@ -151,10 +151,11 @@ const EscapeRoom = () => {
           />
           <button className="escape-room-button" onClick={handleSubmit}>Submit</button>
           <div className="escape-room-feedback">{feedback}</div>
-          <div className="escape-room-timer">Time remaining: {remainingTime}s</div> {/* Display remaining time */}
+          <div className="escape-room-timer">Time remaining: {remainingTime}s</div>
         </div>
       )}
     </div>
+    </div>   
   );
 };
 

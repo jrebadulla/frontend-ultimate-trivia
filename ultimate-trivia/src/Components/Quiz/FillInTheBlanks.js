@@ -121,7 +121,10 @@ const FillInTheBlank = () => {
         </div>
       ) : (
         <div className="question-container">
-          <h2 className="modal-header">{currentQuestion.question_text}</h2>
+           <div>
+            <p className="modal-header">Level {currentQuestionIndex + 1}</p>
+          </div>
+          <h2 className="fill-in-the-blank-questions">{currentQuestion.question_text}</h2>
           <input
             type="text"
             className="input-answer"
