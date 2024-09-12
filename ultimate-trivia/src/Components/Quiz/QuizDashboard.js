@@ -60,11 +60,9 @@ const QuizDashboard = () => {
             ) : activeQuiz === "Quiz with Compiler" ? (
               <CodeQuiz />
             ) : activeQuiz === "Typing Game" ? (
-              <TypingGame />
               <CompilerQuiz />
             ) : activeQuiz === "Code Combat" ? (
               <EscapeRoom />
-
             ) : (
               <p>This is where you play the {activeQuiz} quiz!</p>
             )}
