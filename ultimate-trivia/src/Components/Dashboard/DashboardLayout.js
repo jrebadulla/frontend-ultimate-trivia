@@ -5,6 +5,10 @@ import Logo from "../Image/trivia-logo.png";
 import Trivia from "../Trivia/Trivia";
 import Tutorials from "../../Tutorial/Tutorial";
 import QuizDashboard from "../Quiz/QuizDashboard";
+import Compiler from "../../Compiler/Compiler";
+import theme from "./Theme.js";
+
+import { ChakraProvider,Box } from "@chakra-ui/react";
 
 const DashboardLayout = () => {
   const [activeComponent, setActiveComponent] = useState("trivia");
@@ -47,6 +51,10 @@ const DashboardLayout = () => {
     setActiveComponent("quiz");
   };
 
+  const handleCompilerClick = () => {
+    setActiveComponent("compiler");
+  };
+
   const progressPercentage =
     maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
@@ -64,6 +72,9 @@ const DashboardLayout = () => {
           </a>
           <a href="#!" onClick={handleQuizClick}>
             Quiz
+          </a>
+          <a href="#!" onClick={handleCompilerClick} color="teal.500">
+            Compiler
           </a>
         </div>
         <div className="profile-container">
@@ -95,7 +106,7 @@ const DashboardLayout = () => {
                     strokeWidth="5"
                     fill="none"
                     style={{
-                      strokeDasharray: 188.4, 
+                      strokeDasharray: 188.4,
                       strokeDashoffset:
                         188.4 - 188.4 * (progressPercentage / 100),
                     }}
@@ -115,6 +126,13 @@ const DashboardLayout = () => {
         {activeComponent === "trivia" && <Trivia />}
         {activeComponent === "tutorial" && <Tutorials />}
         {activeComponent === "quiz" && <QuizDashboard />}
+        {activeComponent === "compiler" && (
+          <ChakraProvider theme={theme}>
+            <Box minH="100vh" bg="#0f0a19" color="gray.500" px={6} py={8}>
+            <Compiler />
+            </Box>
+          </ChakraProvider>
+        )}
       </div>
     </div>
   );

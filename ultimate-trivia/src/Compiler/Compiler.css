@@ -1,0 +1,114 @@
+/* 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #2B2D42;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.select-language {
+  background-color: #F72585; 
+  color: #ffffff;
+  border: 1px solid #FF5D8F; 
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.select-language:hover {
+  background-color: #FF5D8F;
+}
+
+.run-button {
+  background-color: #3A0CA3;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.run-button:hover {
+  transform: scale(1.1);
+}
+
+.run-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(58, 12, 163, 0.6);
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.code-editor,
+.output {
+  flex: 1; 
+  background-color: #FF6F91; 
+  border: 2px solid #6A0572;
+  border-radius: 12px;
+  padding: 16px;
+  height: 400px; 
+  overflow: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.code-editor:hover,
+.output:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.output-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #FFBE0B;
+}
+
+.quiz-container {
+  background-color: #2A9D8F;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.quiz-container:hover {
+  background-color: #219E82;
+}
+
+.score {
+  font-size: 1.5rem;
+  color: #FFBE0B;
+  text-align: center;
+}
+
+.play-again-button {
+  background-color: #F72585;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.play-again-button:hover {
+  background-color: #FF5D8F;
+}
+
+.heading{
+    color: #219E82;
+} */
