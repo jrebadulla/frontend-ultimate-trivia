@@ -30,6 +30,7 @@
   border-color: #d62839;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   outline: none;
+  color: black;
 }
 
 .submit-button {
@@ -124,4 +125,23 @@
 .fill-in-the-blank-questions {
   padding-bottom: 10px;
   font-size: 25px;
+}
+
+.score-summary {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.highest-score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f0f0f0; 
+  background: linear-gradient(45deg, #1a2b5a, #44c7cc); 
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  font-family: 'Press Start 2P', cursive; 
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6); 
+  margin-bottom: 50px;
 }
