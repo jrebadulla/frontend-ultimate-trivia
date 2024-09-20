@@ -13,20 +13,32 @@ const BubblePopQuiz = React.memo(() => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [startTime, setStartTime] = useState(null); // Track game start time
+  const [endTime, setEndTime] = useState(null); // Track game end time
 
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const level_id = user.level_id;
   const gameId = 3;
   const currentQuestion = questions[currentQuestionIndex];
+  const baseURL = "http://127.0.0.1:8000"; // Assuming this is your backend URL
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setStartTime(new Date()); // Set start time at the beginning of the game
+  }, []);
 
   const saveUserScore = async () => {
+    const playtime = calculatePlaytime(); // Calculate playtime when the game ends
+    const today = new Date().toISOString().split("T")[0];
     try {
-      await axios.post("http://127.0.0.1:8000/api/saveUserScore", {
+      await axios.post(`${baseURL}/api/saveUserScore`, {
         user_id: userId,
         game_id: gameId,
         score: score,
         level: level_id,
+        playtime: playtime, // Include playtime in the score submission
+        day: today
       });
     } catch (error) {
       console.error("Error saving score:", error);
@@ -36,12 +48,9 @@ const BubblePopQuiz = React.memo(() => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/quiz-questions",
-          {
-            params: { game_id: gameId },
-          }
-        );
+        const response = await axios.get(`${baseURL}/api/quiz-questions`, {
+          params: { game_id: gameId },
+        });
         const fetchedQuestions = response.data;
         const transformedQuestions = fetchedQuestions.map((question) => ({
           ...question,
@@ -61,7 +70,7 @@ const BubblePopQuiz = React.memo(() => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [gameId]);
 
   useEffect(() => {
     const createBubbles = () => {
@@ -75,16 +84,16 @@ const BubblePopQuiz = React.memo(() => {
         allAnswers.sort(() => Math.random() - 0.5);
 
         const newBubbles = [];
-        const numColumns = 3; 
-        const numRows = 2; 
+        const numColumns = 3;
+        const numRows = 2;
 
         for (let i = 0; i < allAnswers.length; i++) {
           const column = i % numColumns;
           const row = Math.floor(i / numColumns);
 
           const position = {
-            left: `${column * (100 / numColumns)}%`, 
-            top: `${row * (100 / numRows)}%`, 
+            left: `${column * (100 / numColumns)}%`,
+            top: `${row * (100 / numRows)}%`,
           };
 
           newBubbles.push({
@@ -108,7 +117,8 @@ const BubblePopQuiz = React.memo(() => {
 
   useEffect(() => {
     if (gameOver) {
-      saveUserScore();
+      setEndTime(new Date()); // Set end time when the game ends
+      saveUserScore(); // Save score and playtime when the game ends
       return;
     }
 
@@ -117,6 +127,7 @@ const BubblePopQuiz = React.memo(() => {
         if (prevTime <= 1) {
           clearInterval(timer);
           setGameOver(true);
+          setEndTime(new Date());
           saveUserScore();
         }
         return prevTime - 1;
@@ -126,14 +137,33 @@ const BubblePopQuiz = React.memo(() => {
     return () => clearInterval(timer);
   }, [gameOver]);
 
-  const handleBubbleClick = (id, answer) => {
+  const calculatePlaytime = () => {
+    if (startTime && endTime) {
+      return Math.floor((endTime - startTime) / 1000); // Playtime in seconds
+    }
+    return 0;
+  };
+
+  const handleBubbleClick = async (id, answer) => {
     if (gameOver) return;
 
     setPopBubbleId(id);
-    setTimeout(() => {
-      if (answer === currentQuestion.correct_answer) {
+    setTimeout(async () => {
+      const isCorrect = answer === currentQuestion.correct_answer;
+
+      if (isCorrect) {
         setScore((prevScore) => prevScore + 1);
       }
+
+      // Save each answer as the user pops bubbles
+      await axios.post(`${baseURL}/api/user-answers`, {
+        user_id: userId,
+        game_id: gameId,
+        question_id: currentQuestion.question_id,
+        user_answer: answer,
+        correct_answer: currentQuestion.correct_answer,
+        is_correct: isCorrect,
+      });
 
       setBubbles((prevBubbles) =>
         prevBubbles.filter((bubble) => bubble.id !== id)
@@ -157,6 +187,8 @@ const BubblePopQuiz = React.memo(() => {
     setTimeLeft(30);
     setCurrentQuestionIndex(0);
     setGameOver(false);
+    setStartTime(new Date());
+    setEndTime(null);
   };
 
   if (loading) {
@@ -173,8 +205,8 @@ const BubblePopQuiz = React.memo(() => {
         <div className="bubble-quiz-container">
           <div className="bubble-quiz-header">
             <div>
-            <p className="modal-header">Level {currentQuestionIndex + 1}</p>
-          </div>
+              <p className="modal-header">Level {currentQuestionIndex + 1}</p>
+            </div>
             <div className="score-container">
               <div className="score">{score}</div>
               <div className="score-label">Score</div>

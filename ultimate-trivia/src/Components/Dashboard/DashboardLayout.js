@@ -8,7 +8,8 @@ import QuizDashboard from "../Quiz/QuizDashboard";
 import Compiler from "../../Compiler/Compiler";
 import theme from "./Theme.js";
 
-import { ChakraProvider,Box } from "@chakra-ui/react";
+import { ChakraProvider, Box } from "@chakra-ui/react";
+import UserRadarChartWithSuggestions from "../DataVisualization/DataVisualization.js";
 
 const DashboardLayout = () => {
   const [activeComponent, setActiveComponent] = useState("trivia");
@@ -55,6 +56,10 @@ const DashboardLayout = () => {
     setActiveComponent("compiler");
   };
 
+  const handleVisualizationClick = () => {
+    setActiveComponent("visualization");
+  };
+
   const progressPercentage =
     maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
@@ -75,6 +80,9 @@ const DashboardLayout = () => {
           </a>
           <a href="#!" onClick={handleCompilerClick} color="teal.500">
             Compiler
+          </a>
+          <a href="#!" onClick={handleVisualizationClick} color="teal.500">
+            Visualization
           </a>
         </div>
         <div className="profile-container">
@@ -129,10 +137,11 @@ const DashboardLayout = () => {
         {activeComponent === "compiler" && (
           <ChakraProvider theme={theme}>
             <Box minH="100vh" bg="#0f0a19" color="gray.500" px={6} py={8}>
-            <Compiler />
+              <Compiler />
             </Box>
           </ChakraProvider>
         )}
+        {activeComponent === "visualization" && <UserRadarChartWithSuggestions />}
       </div>
     </div>
   );
