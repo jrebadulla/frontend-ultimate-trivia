@@ -34,7 +34,7 @@ const Tutorials = () => {
               <source src={video.src} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <p>{video.title}</p>
+            <p className="title-video">{video.title}</p>
           </div>
         ))}
       </div>

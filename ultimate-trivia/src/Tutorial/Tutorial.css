@@ -72,3 +72,7 @@ video {
   background-color: #00332d;
   transform: scale(1.05);
 }
+
+.title-video{
+  color: black;
+}
