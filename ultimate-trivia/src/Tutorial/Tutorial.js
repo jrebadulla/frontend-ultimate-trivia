@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./Tutorial.css";
 import Js from "../Components/Videos/Js.mp4";
 
@@ -8,20 +8,36 @@ const videoData = [
   { src: Js, title: "Learn HTML" },
   { src: Js, title: "Learn React" },
   { src: Js, title: "Learn React" },
-
 ];
 
 const Tutorials = () => {
-  const videoRef = useRef(null);
+  const videoRefs = useRef([]);
 
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      videoRef.current.requestFullscreen()
-        .catch(err => console.log(`Error attempting to enable fullscreen mode: ${err.message}`));
-    } else {
-      document.exitFullscreen()
-        .catch(err => console.log(`Error attempting to exit fullscreen mode: ${err.message}`));
+  const toggleFullscreen = (index) => {
+    const videoElement = videoRefs.current[index];
+    if (videoElement) {
+      if (!document.fullscreenElement) {
+        videoElement
+          .requestFullscreen()
+          .catch((err) =>
+            console.log(
+              `Error attempting to enable fullscreen mode: ${err.message}`
+            )
+          );
+      } else {
+        document
+          .exitFullscreen()
+          .catch((err) =>
+            console.log(
+              `Error attempting to exit fullscreen mode: ${err.message}`
+            )
+          );
+      }
     }
+  };
+
+  const handlePlay = (index) => {
+    videoRefs.current[index].play();
   };
 
   return (
@@ -30,10 +46,19 @@ const Tutorials = () => {
       <div className="video-container">
         {videoData.map((video, index) => (
           <div className="video-item" key={index}>
-            <video ref={videoRef} controls>
-              <source src={video.src} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <div className="video-wrapper">
+              <video
+                ref={(el) => (videoRefs.current[index] = el)}
+                controls
+                poster="/path/to/your/thumbnail.png"
+              >
+                <source src={video.src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <button className="play-btn" onClick={() => handlePlay(index)}>
+                ▶
+              </button>
+            </div>
             <p className="title-video">{video.title}</p>
           </div>
         ))}

@@ -40,30 +40,26 @@
 }
 
 .bubble-quiz-area {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   width: 100%;
   height: calc(100vh - 10px);
   background: linear-gradient(135deg, #1c2b47, #3b4d71);
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  flex-wrap: wrap; 
-  gap: 10px; 
+  gap: 20px; /* Controls space between bubbles */
 }
 
 .bubble {
-  position: absolute;
   width: 100px;
   height: 100px;
   background: radial-gradient(circle, #ff8a00, #e52e71);
   border-radius: 50%;
   cursor: pointer;
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,11 +72,6 @@
 .bubble:hover {
   transform: scale(1.2);
   background: radial-gradient(circle, #e52e71, #ff8a00);
-}
-
-.bubble:hover .bubble-text {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 1);
 }
 
 .bubble-text {

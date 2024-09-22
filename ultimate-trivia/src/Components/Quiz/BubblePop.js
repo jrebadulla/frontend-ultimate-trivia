@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./BubblePop.css";
-import { v4 as uuidv4 } from "uuid"; // For unique IDs
+import { v4 as uuidv4 } from "uuid"; 
 
 const BubblePopQuiz = React.memo(() => {
   const [bubbles, setBubbles] = useState([]);
@@ -13,23 +13,23 @@ const BubblePopQuiz = React.memo(() => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [startTime, setStartTime] = useState(null); // Track game start time
-  const [endTime, setEndTime] = useState(null); // Track game end time
+  const [startTime, setStartTime] = useState(null); 
+  const [endTime, setEndTime] = useState(null); 
 
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const level_id = user.level_id;
   const gameId = 3;
   const currentQuestion = questions[currentQuestionIndex];
-  const baseURL = "http://127.0.0.1:8000"; // Assuming this is your backend URL
+  const baseURL = "http://127.0.0.1:8000"; 
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
-    setStartTime(new Date()); // Set start time at the beginning of the game
+    setStartTime(new Date());  
   }, []);
 
   const saveUserScore = async () => {
-    const playtime = calculatePlaytime(); // Calculate playtime when the game ends
+    const playtime = calculatePlaytime(); 
     const today = new Date().toISOString().split("T")[0];
     try {
       await axios.post(`${baseURL}/api/saveUserScore`, {
@@ -37,7 +37,7 @@ const BubblePopQuiz = React.memo(() => {
         game_id: gameId,
         score: score,
         level: level_id,
-        playtime: playtime, // Include playtime in the score submission
+        playtime: playtime, 
         day: today
       });
     } catch (error) {
@@ -117,8 +117,8 @@ const BubblePopQuiz = React.memo(() => {
 
   useEffect(() => {
     if (gameOver) {
-      setEndTime(new Date()); // Set end time when the game ends
-      saveUserScore(); // Save score and playtime when the game ends
+      setEndTime(new Date()); 
+      saveUserScore();
       return;
     }
 
@@ -155,7 +155,6 @@ const BubblePopQuiz = React.memo(() => {
         setScore((prevScore) => prevScore + 1);
       }
 
-      // Save each answer as the user pops bubbles
       await axios.post(`${baseURL}/api/user-answers`, {
         user_id: userId,
         game_id: gameId,

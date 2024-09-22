@@ -8,9 +8,9 @@ const MultipleChoice = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizFinished, setQuizFinished] = useState(false);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
-  const [startTime, setStartTime] = useState(null); // Track start time
-  const [endTime, setEndTime] = useState(null); // Track end time
-  const [currentDay, setCurrentDay] = useState(""); // Track current day
+  const [startTime, setStartTime] = useState(null); 
+  const [endTime, setEndTime] = useState(null); 
+  const [currentDay, setCurrentDay] = useState(""); 
 
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
@@ -83,7 +83,7 @@ const MultipleChoice = () => {
 
   const calculatePlaytime = () => {
     if (startTime && endTime) {
-      const playtime = Math.floor((endTime - startTime) / 1000); 
+      const playtime = Math.floor((endTime - startTime) / 1000);
       return playtime;
     }
     return 0;
