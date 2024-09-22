@@ -10,6 +10,7 @@ const Login = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -17,6 +18,7 @@ const Login = () => {
     password: "",
     username: "",
     level_id: "",
+    profile_picture: null,
   });
 
   const navigate = useNavigate();
@@ -29,6 +31,21 @@ const Login = () => {
     });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({
+      ...formData,
+      profile_picture: file,
+    });
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const handleRegisterClick = () => {
     setIsActive(true);
   };
@@ -40,15 +57,34 @@ const Login = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
+    const formDataToSend = new FormData();
+
+    formDataToSend.append("firstname", formData.firstname);
+    formDataToSend.append("lastname", formData.lastname);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("password", formData.password);
+    formDataToSend.append("username", formData.username);
+    formDataToSend.append("level_id", formData.level_id);
+
+    if (formData.profile_picture) {
+      formDataToSend.append("profile_picture", formData.profile_picture);
+    }
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/insertUsers",
-        formData
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       message.success("Sign up successful!");
       console.log(response.data);
     } catch (error) {
       console.error(error);
+      message.error("Error during signup");
     }
   };
 
@@ -57,7 +93,8 @@ const Login = () => {
     axios
       .post("http://127.0.0.1:8000/api/userLogin", { username, password })
       .then((response) => {
-        const { user_id, firstname, lastname, level_id } = response.data.user;
+        const { user_id, firstname, lastname, level_id, profile_picture } =
+          response.data.user;
 
         localStorage.setItem(
           "user",
@@ -65,7 +102,8 @@ const Login = () => {
             firstname,
             lastname,
             user_id,
-            level_id
+            level_id,
+            profile_picture,
           })
         );
 
@@ -83,7 +121,6 @@ const Login = () => {
       <div className={`container ${isActive ? "active" : ""}`} id="container">
         <div className="form-container sign-up">
           <form>
-            <h1>Create Acount</h1>
             <br></br>
             <div className="social-icons">
               <a href="#" className="icon"></a>
@@ -140,6 +177,24 @@ const Login = () => {
               <option value="3">Third Year</option>
               <option value="4">Fourth Year</option>
             </select>
+            <label className="upload-btn" htmlFor="file-upload">
+              Upload Profile Picture
+            </label>
+            <input
+              type="file"
+              id="file-upload"
+              name="profile_picture"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="upload-preview"
+              />
+            )}
             <button onClick={handleSignUp}>Sign Up</button>
           </form>
         </div>

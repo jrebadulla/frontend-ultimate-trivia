@@ -8,16 +8,16 @@ const FillInTheBlank = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizFinished, setQuizFinished] = useState(false);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
-  const [startTime, setStartTime] = useState(null); // Track start time
-  const [endTime, setEndTime] = useState(null); // Track end time
-  const [currentDay, setCurrentDay] = useState(""); // Track current day
+  const [startTime, setStartTime] = useState(null); 
+  const [endTime, setEndTime] = useState(null); 
+  const [currentDay, setCurrentDay] = useState(""); 
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [highScore, setHighScore] = useState(0);
 
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const levelId = user.level_id;
-  const gameId = 7; // Game ID for Fill-in-the-Blanks quiz
+  const gameId = 7; 
   const baseURL = "http://127.0.0.1:8000"; 
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const FillInTheBlank = () => {
     const today = new Date().toISOString().split("T")[0];
     setCurrentDay(today);
 
-    // Fetch the quiz questions
     axios
       .get(`${baseURL}/api/quiz-questions`, {
         params: { game_id: gameId },
@@ -37,7 +36,6 @@ const FillInTheBlank = () => {
         console.error("Error fetching the questions:", error);
       });
 
-    // Fetch the user's high score for this quiz
     axios
       .get(`${baseURL}/api/user-high-score`, {
         params: { user_id: userId, game_id: gameId },
@@ -58,7 +56,6 @@ const FillInTheBlank = () => {
     const isCorrect =
       trimmedAnswer.toLowerCase() === currentQuestion.correct_answer.toLowerCase();
 
-    // Post the answer to the backend after each question
     await axios.post(`${baseURL}/api/user-answers`, {
       user_id: userId,
       game_id: gameId,
@@ -68,14 +65,13 @@ const FillInTheBlank = () => {
       is_correct: isCorrect,
     });
 
-    // Update the state
     setUserAnswers(updatedAnswers);
     setCurrentAnswer("");
 
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setEndTime(new Date()); // Set end time when quiz finishes
+      setEndTime(new Date()); 
       const correctAnswersCount = updatedAnswers.filter(
         (answer, index) =>
           answer.toLowerCase() === questions[index].correct_answer.toLowerCase()
@@ -93,7 +89,7 @@ const FillInTheBlank = () => {
 
   const calculatePlaytime = () => {
     if (startTime && endTime) {
-      const playtime = Math.floor((endTime - startTime) / 1000); // Playtime in seconds
+      const playtime = Math.floor((endTime - startTime) / 1000); 
       return playtime;
     }
     return 0;

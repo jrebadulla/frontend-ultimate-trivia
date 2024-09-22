@@ -16,6 +16,7 @@ function App() {
         <Route path="/quiz" element={<QuizDashboard />}></Route> 
         <Route path="/trivia" element={<Trivia />}></Route>
         <Route path="/tutorials" element={<Tutorials />}></Route>
+        <Route path="/tutorials" element={<QuizDashboard />}></Route>
       </Routes>
     </BrowserRouter>
   );

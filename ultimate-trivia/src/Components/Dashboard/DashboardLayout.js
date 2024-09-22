@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./DashboardLayout.css";
 import Logo from "../Image/trivia-logo.png";
 import Trivia from "../Trivia/Trivia";
@@ -21,24 +20,8 @@ const DashboardLayout = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
       setUser(storedUser);
-      fetchUserProgress(storedUser.user_id);
     }
   }, []);
-
-  const fetchUserProgress = async (userId) => {
-    try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/users-score",
-        {
-          params: { user_id: userId },
-        }
-      );
-      setTotalScore(response.data.total_score);
-      setMaxPossibleScore(response.data.max_possible_score);
-    } catch (error) {
-      console.error("Error fetching user progress:", error);
-    }
-  };
 
   const handleTriviaClick = () => {
     setActiveComponent("trivia");
@@ -60,9 +43,6 @@ const DashboardLayout = () => {
     setActiveComponent("visualization");
   };
 
-  const progressPercentage =
-    maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
-
   return (
     <div className="dashboard-container">
       <div className="header-container">
@@ -76,13 +56,13 @@ const DashboardLayout = () => {
             Tutorials
           </a>
           <a href="#!" onClick={handleQuizClick}>
-            Quiz
+            Quiz Game
           </a>
           <a href="#!" onClick={handleCompilerClick} color="teal.500">
             Compiler
           </a>
           <a href="#!" onClick={handleVisualizationClick} color="teal.500">
-            Visualization
+            Statistics
           </a>
         </div>
         <div className="profile-container">
@@ -91,39 +71,20 @@ const DashboardLayout = () => {
               <p className="username">
                 {user.firstname} {user.lastname}
               </p>
-              <div className="progress-container">
-                <svg
-                  className="progress-bar"
-                  width="70"
-                  height="70"
-                  viewBox="0 0 70 70"
-                >
-                  <circle
-                    cx="35"
-                    cy="35"
-                    r="30"
-                    className="progress-bg"
-                    strokeWidth="5"
-                    fill="none"
-                  />
-                  <circle
-                    cx="35"
-                    cy="35"
-                    r="30"
-                    className="progress"
-                    strokeWidth="5"
-                    fill="none"
-                    style={{
-                      strokeDasharray: 188.4,
-                      strokeDashoffset:
-                        188.4 - 188.4 * (progressPercentage / 100),
-                    }}
-                  />
-                  <text x="35" y="35" className="progress-text">
-                    {Math.round(progressPercentage)}%
-                  </text>
-                </svg>
-              </div>
+              <img
+                src={`http://127.0.0.1:8000/${user.profile_picture}`}
+                alt={`${user.firstname} ${user.lastname}'s Profile Picture`}
+                className="profile-image"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  marginRight: "10px",
+                }}
+                onError={(e) => {
+                  e.target.src = "/path/to/default-image.jpg";
+                }}
+              />
             </>
           ) : (
             <p>Loading user data...</p>
@@ -141,7 +102,9 @@ const DashboardLayout = () => {
             </Box>
           </ChakraProvider>
         )}
-        {activeComponent === "visualization" && <UserRadarChartWithSuggestions />}
+        {activeComponent === "visualization" && (
+          <UserRadarChartWithSuggestions />
+        )}
       </div>
     </div>
   );
