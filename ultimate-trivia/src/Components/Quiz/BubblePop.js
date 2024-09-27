@@ -37,7 +37,7 @@ const BubblePopQuiz = React.memo(() => {
   const { user_id: userId, level_id } = user;
   const gameId = 3;
   const currentQuestion = questions[currentQuestionIndex];
-  const baseURL = "http://3.107.73.113";
+  const baseURL = "https://3.107.73.113";
 
   useEffect(() => {
     setStartTime(new Date());

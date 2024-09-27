@@ -20,7 +20,7 @@ const EscapeRoom = () => {
 
   useEffect(() => {
  
-    axios.get('http://3.107.73.113/api/quiz-questions', {
+    axios.get('https://3.107.73.113/api/quiz-questions', {
       params: { game_id: gameId },
     })
     .then(response => {
@@ -103,7 +103,7 @@ const EscapeRoom = () => {
 
   const saveUserScore = async (calculatedScore) => {
     try {
-      await axios.post('http://127.0.0.1:8000/api/saveUserScore', {
+      await axios.post('https://127.0.0.1:8000/api/saveUserScore', {
         user_id: userId,
         game_id: gameId,
         score: calculatedScore,
