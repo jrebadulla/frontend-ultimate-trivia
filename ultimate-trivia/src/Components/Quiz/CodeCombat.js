@@ -20,7 +20,7 @@ const EscapeRoom = () => {
 
   useEffect(() => {
  
-    axios.get('http://127.0.0.1:8000/api/quiz-questions', {
+    axios.get('http://3.107.73.113/api/quiz-questions', {
       params: { game_id: gameId },
     })
     .then(response => {
