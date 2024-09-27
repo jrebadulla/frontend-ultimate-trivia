@@ -102,9 +102,6 @@ const MultipleChoice = () => {
         day: currentDay,
       });
       
-      // Log the response to confirm it's working
-      console.log("Response from saveUserScore:", response.data);
-      console.log("Score, playtime, and day saved successfully");
     } catch (error) {
       console.error("Error saving score:", error.response ? error.response.data : error.message);
     }
