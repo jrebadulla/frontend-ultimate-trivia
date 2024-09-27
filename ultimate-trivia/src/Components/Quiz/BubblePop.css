@@ -1,200 +1,160 @@
 .bubble-quiz-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: auto;
-}
-
-.bubble-quiz-header {
+  position: relative;
   text-align: center;
-  margin-bottom: 15px;
 }
 
-.bubble-quiz-header h2 {
-  font-size: 2rem;
-  color: #f5f5f5;
-  margin-bottom: 10px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+.score {
+  font-size: 4rem;
+  color: #2ecc71;
+  font-weight: bold;
+  text-shadow: 2px 4px #34495e;
 }
 
-.bubble-quiz-header .score,
-.bubble-quiz-header .timer {
-  font-size: 1.2rem;
-  color: #f5f5f5;
+.timer {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 1.5rem;
+  animation: timerpulse 1s infinite;
+  text-align: center;
 }
 
-.bubble-quiz-header .current-question {
-  font-size: 1.4rem;
+.current-question, .timer {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.feedback {
+  font-size: 1.5rem;
+  color: #fbc531;
   margin-top: 10px;
-  color: #e0e0e0;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  transition: opacity 0.3s ease;
+  animation: bubblefadeIn 0.5s ease-in-out;
 }
 
 .bubble-quiz-area {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
   justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  height: calc(100vh - 10px);
-  background: linear-gradient(135deg, #1c2b47, #3b4d71);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  gap: 20px; /* Controls space between bubbles */
+  align-items: center; 
+  gap: 20px; 
+  height: 40vh; 
+  width: 100%; 
+  margin: 0 auto; 
 }
 
 .bubble {
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, #ff8a00, #e52e71);
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(to bottom right, #6DD5FA, #2980b9);
   border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
   text-align: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+  cursor: pointer;
+  padding: 10px;
+  margin: 20px; 
 }
 
 .bubble:hover {
   transform: scale(1.2);
-  background: radial-gradient(circle, #e52e71, #ff8a00);
-}
-
-.bubble-text {
-  word-wrap: break-word;
-  text-align: center;
-  font-size: calc(0.8rem + 0.4vw);
-  max-width: 90%;
-  max-height: 90%;
-  overflow: hidden;
-  line-height: 1.2;
-  font-size: 10px;
-}
-
-@keyframes popAnimation {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
 }
 
 .bubble.pop {
-  animation: popAnimation 0.5s ease-out forwards;
+  transform: scale(0);
+  transition: transform 0.5s ease-in-out;
 }
 
-@media (max-width: 768px) {
-  .bubble {
-    width: 50px;
-    height: 50px;
-    font-size: 0.8rem;
-  }
-
-  .bubble-text {
-    font-size: 0.7rem;
-  }
+.bubble span {
+  white-space: pre-line;
 }
 
-.game-over-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  max-width: 600px;
-  background: linear-gradient(135deg, #ff6b6b, #f5a623);
+.current-question {
+  font-size: 2rem;
+  font-weight: bold;
   color: #ffffff;
-  border-radius: 15px;
-  padding: 20px;
   text-align: center;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  animation: fadeIn 1s ease-out;
+
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+.bubble.pop {
+  transform: scale(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.bubble-text {
+  pointer-events: none;
 }
 
 .game-over-header {
-  font-size: 2.5rem;
-  font-family: "Press Start 2P", cursive;
-  margin-bottom: 20px;
-  color: #ffdd57;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #e84118;
+  margin-bottom: 2rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: bounceIn 1s ease;
 }
 
 .game-over-score {
-  font-size: 4rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #ffffff;
-  background: #3b4d71;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-  animation: bounce 1s ease-out;
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-.game-over-buttons {
-  margin-top: 20px;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #fbc531;
 }
 
 .game-over-buttons button {
-  background: #ffdd57;
+  background-color: #44bd32;
+  color: #ffffff;
+  padding: 0.7rem 2rem;
+  font-size: 1.4rem;
+  border-radius: 25px;
   border: none;
-  color: #1c2b47;
-  font-size: 1.2rem;
-  font-family: "Press Start 2P", cursive;
-  padding: 10px 20px;
-  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .game-over-buttons button:hover {
-  background: #f5a623;
+  background-color: #40739e;
 }
 
-.game-over-buttons button:focus {
-  outline: none;
+@keyframes bubblefadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes timerpulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

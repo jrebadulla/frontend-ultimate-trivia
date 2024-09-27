@@ -211,6 +211,20 @@ const Compiler = () => {
                   borderColor: "#63B3ED",
                   boxShadow: "0 0 0 1px #63B3ED",
                 }}
+                sx={{
+                  option: {
+                    color: "black", 
+                    bg: "white", 
+                    _hover: {
+                      bg: "#63B3ED", 
+                      color: "white", 
+                    },
+                    _active: {
+                      bg: "#3182ce", 
+                      color: "white", 
+                    },
+                  },
+                }}
               >
                 {Object.keys(LANGUAGE_VERSIONS).map((lang) => (
                   <option key={lang} value={lang}>

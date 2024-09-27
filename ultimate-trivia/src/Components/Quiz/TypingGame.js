@@ -6,24 +6,27 @@ const TypingGame = () => {
   const [snippet, setSnippet] = useState("");
   const [userInput, setUserInput] = useState("");
   const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null); // Track end time
+  const [endTime, setEndTime] = useState(null);
   const [timeTaken, setTimeTaken] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [gameFinished, setGameFinished] = useState(false); 
   const [userScore, setUserScore] = useState(0); 
-  const [currentDay, setCurrentDay] = useState(""); // Track current day
-  const [currentQuestion, setCurrentQuestion] = useState(null); // Track current question
+  const [currentDay, setCurrentDay] = useState(""); 
+  const [currentQuestion, setCurrentQuestion] = useState(null); 
 
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const userId = user.user_id;
   const levelId = user.level_id;
-  const gameId = 9; // Example Game ID
-  const baseURL = "http://127.0.0.1:8000"; // Replace with your actual API URL
+  const gameId = 9;
+  const baseURL = "http://127.0.0.1:8000"; 
+
+  // Sound effect
+  const typingSound = new Audio("/sounds/type-sound.mp3");
 
   // Fetch questions and set current day
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0]; // Set current day
+    const today = new Date().toISOString().split("T")[0]; 
     setCurrentDay(today);
 
     axios
@@ -34,7 +37,7 @@ const TypingGame = () => {
         setQuestions(response.data);
         const randomQuestion = response.data[Math.floor(Math.random() * response.data.length)];
         setSnippet(randomQuestion.question_text); 
-        setCurrentQuestion(randomQuestion); // Store current question details
+        setCurrentQuestion(randomQuestion); 
       })
       .catch((error) => {
         console.error("Error fetching snippets:", error);
@@ -44,12 +47,15 @@ const TypingGame = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
 
-    // Start the timer when the user starts typing
+    // Play typing sound on key press
+    if (value.length > userInput.length) {
+      typingSound.play();
+    }
+
     if (!startTime) {
       setStartTime(Date.now());
     }
 
-    // Calculate accuracy as the user types
     const matchingChars = value
       .split("")
       .filter((char, i) => char === snippet[i]).length;
@@ -57,19 +63,15 @@ const TypingGame = () => {
     
     setUserInput(value);
 
-    // If the user finishes typing the entire snippet correctly
     if (value === snippet && !gameFinished) {
       const endTimeValue = Date.now();
-      setEndTime(endTimeValue); // Capture end time when finished
-      setTimeTaken((endTimeValue - startTime) / 1000); // Calculate time taken in seconds
+      setEndTime(endTimeValue); 
+      setTimeTaken((endTimeValue - startTime) / 1000); 
       const calculatedScore = calculateScore(); 
       setUserScore(calculatedScore); 
 
-      // Set game as finished to prevent multiple submissions
       setGameFinished(true); 
-      saveUserAnswer(value); // Save the user's completed answer
-
-      // Calculate and save user score and playtime
+      saveUserAnswer(value); 
       saveUserScore(calculatedScore, endTimeValue);
     }
   };
@@ -84,28 +86,26 @@ const TypingGame = () => {
     setTimeTaken(null);
     setAccuracy(null);
     setStartTime(null);
-    setEndTime(null); // Reset end time when the game is reset
-    setGameFinished(false); // Reset the game finished state
+    setEndTime(null); 
+    setGameFinished(false); 
     const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
     setSnippet(randomQuestion.question_text);
-    setCurrentQuestion(randomQuestion); // Reset to a new random question
+    setCurrentQuestion(randomQuestion); 
   };
 
   const calculateScore = () => {
     return accuracy ? Math.round(accuracy) : 0;
   };
 
-  // Use startTime and endTime to calculate playtime
   const calculatePlaytime = (endTimeValue) => {
     if (startTime && endTimeValue) {
-      return Math.floor((endTimeValue - startTime) / 1000); // Playtime in seconds
+      return Math.floor((endTimeValue - startTime) / 1000); 
     }
-    return 0; // Default to 0 if the playtime cannot be calculated
+    return 0;
   };
 
-  // Save user score to the server
   const saveUserScore = async (calculatedScore, endTimeValue) => {
-    const playtime = calculatePlaytime(endTimeValue); // Calculate playtime based on the end time
+    const playtime = calculatePlaytime(endTimeValue); 
     
     try {
       await axios.post(`${baseURL}/api/saveUserScore`, {
@@ -113,8 +113,8 @@ const TypingGame = () => {
         game_id: gameId,
         level: levelId,
         score: calculatedScore,
-        day: currentDay, // Add the day field
-        playtime: playtime, // Add playtime (in seconds)
+        day: currentDay, 
+        playtime: playtime, 
       });
 
       console.log("Score, playtime, and day saved successfully");
@@ -123,13 +123,12 @@ const TypingGame = () => {
     }
   };
 
-  // Save the user's answer
   const saveUserAnswer = async (userAnswer) => {
     try {
       await axios.post(`${baseURL}/api/user-answers`, {
         user_id: userId,
         game_id: gameId,
-        question_id: currentQuestion.question_id, // Use the current question ID
+        question_id: currentQuestion.question_id,
         user_answer: userAnswer,
         correct_answer: currentQuestion.correct_answer,
         is_correct: userAnswer === currentQuestion.correct_answer,

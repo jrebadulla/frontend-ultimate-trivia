@@ -12,6 +12,7 @@ const videoData = [
 
 const Tutorials = () => {
   const videoRefs = useRef([]);
+  const [isPlaying, setIsPlaying] = useState(videoData.map(() => false)); // Track play state for each video
 
   const toggleFullscreen = (index) => {
     const videoElement = videoRefs.current[index];
@@ -38,6 +39,15 @@ const Tutorials = () => {
 
   const handlePlay = (index) => {
     videoRefs.current[index].play();
+    const updatedPlayState = [...isPlaying];
+    updatedPlayState[index] = true; // Hide play button for the specific video
+    setIsPlaying(updatedPlayState);
+  };
+
+  const handleVideoEnded = (index) => {
+    const updatedPlayState = [...isPlaying];
+    updatedPlayState[index] = false; // Show play button when video ends
+    setIsPlaying(updatedPlayState);
   };
 
   return (
@@ -51,13 +61,20 @@ const Tutorials = () => {
                 ref={(el) => (videoRefs.current[index] = el)}
                 controls
                 poster="/path/to/your/thumbnail.png"
+                onEnded={() => handleVideoEnded(index)} // Reset button visibility after video ends
               >
                 <source src={video.src} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-              <button className="play-btn" onClick={() => handlePlay(index)}>
-                ▶
-              </button>
+
+              {!isPlaying[index] && ( // Conditionally render the play button based on play state
+                <button
+                  className="play-btn"
+                  onClick={() => handlePlay(index)}
+                >
+                  ▶
+                </button>
+              )}
             </div>
             <p className="title-video">{video.title}</p>
           </div>
