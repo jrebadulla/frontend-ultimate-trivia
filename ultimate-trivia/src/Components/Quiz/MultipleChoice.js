@@ -16,7 +16,7 @@ const MultipleChoice = () => {
   const userId = user.user_id;
   const levelId = user.level_id;
   const gameId = 4; 
-  const baseURL = "http://3.107.73.113"; 
+  const baseURL = "https://3.107.73.113"; 
 
   
   useEffect(() => {

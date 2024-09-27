@@ -72,7 +72,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://3.107.73.113/api/insertUsers",
+        "https://3.107.73.113/api/insertUsers",
         formDataToSend,
         {
           headers: {
@@ -91,7 +91,7 @@ const Login = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     axios
-    .post("http://3.107.73.113/api/userLogin", { username, password })
+    .post("https://3.107.73.113/api/userLogin", { username, password })
       .then((response) => {
         const { user_id, firstname, lastname, level_id, profile_picture } =
           response.data.user;

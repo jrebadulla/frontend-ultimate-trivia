@@ -30,7 +30,7 @@ const Compiler = () => {
   useEffect(() => {
     if (isQuizActive) {
       axios
-        .get("http://3.107.73.113/api/quiz-questions", {
+        .get("https://3.107.73.113/api/quiz-questions", {
           params: { game_id: 8 }, 
         })
         .then((response) => {
@@ -117,7 +117,7 @@ const Compiler = () => {
       const userId = user.user_id;
       const level_id = user.level_id;
 
-      await axios.post("http://3.107.73.113/api/saveUserScore", {
+      await axios.post("https://3.107.73.113/api/saveUserScore", {
         user_id: userId,
         game_id: 8,
         score: calculatedScore,
