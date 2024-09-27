@@ -41,7 +41,7 @@ const UserRadarChartWithSuggestions = () => {
       const userId = user.user_id;
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/user-difficulty",
+          "http://3.107.73.113/api/user-difficulty",
           {
             params: { user_id: userId },
           }

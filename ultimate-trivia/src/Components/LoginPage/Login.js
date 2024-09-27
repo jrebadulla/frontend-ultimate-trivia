@@ -72,7 +72,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/insertUsers",
+        "http://3.107.73.113/api/insertUsers",
         formDataToSend,
         {
           headers: {

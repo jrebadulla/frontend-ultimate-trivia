@@ -18,7 +18,7 @@ const FillInTheBlank = () => {
   const userId = user.user_id;
   const levelId = user.level_id;
   const gameId = 7; 
-  const baseURL = "http://127.0.0.1:8000"; 
+  const baseURL = "http://3.107.73.113"; 
 
   useEffect(() => {
     setStartTime(new Date()); 
