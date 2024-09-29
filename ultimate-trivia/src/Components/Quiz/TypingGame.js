@@ -19,7 +19,7 @@ const TypingGame = () => {
   const userId = user.user_id;
   const levelId = user.level_id;
   const gameId = 9;
-  const baseURL = "https://3.107.73.113"; 
+  const baseURL = "http://127.0.0.1:8000"; 
 
   // Sound effect
   const typingSound = new Audio("/sounds/type-sound.mp3");

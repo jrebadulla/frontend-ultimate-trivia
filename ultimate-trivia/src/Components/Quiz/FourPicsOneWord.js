@@ -22,7 +22,7 @@ const FourPicsOneWord = () => {
   const userId = user.user_id;
   const levelId = user.level_id;
   const gameId = 5; // Game ID for FourPicsOneWord
-  const baseURL = "https://3.107.73.113"; // Your backend API URL
+  const baseURL = "http://127.0.0.1:8000"; // Your backend API URL
 
   // Fetch questions and high score on component mount
   useEffect(() => {
