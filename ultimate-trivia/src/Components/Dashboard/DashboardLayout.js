@@ -72,7 +72,7 @@ const DashboardLayout = () => {
                 {user.firstname} {user.lastname}
               </p>
               <img
-                src={`https://3.107.73.113/${user.profile_picture}`}
+                src={`http://127.0.0.1:8000/${user.profile_picture}`}
                 alt={`${user.firstname} ${user.lastname}'s Profile Picture`}
                 className="profile-image"
                 style={{
